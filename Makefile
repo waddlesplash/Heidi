@@ -123,7 +123,7 @@ SYMBOLS =
 DEBUGGER = TRUE
 
 #	specify additional compiler flags for all files
-COMPILER_FLAGS = -frtti
+COMPILER_FLAGS =
 
 #	specify additional linker flags
 LINKER_FLAGS =
