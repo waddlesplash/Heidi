@@ -34,7 +34,7 @@ APP_MIME_SIG=
 #	if two source files with the same name (source.c or source.cpp)
 #	are included from different directories.  Also note that spaces
 #	in folder names do not work well with this makefile.
-SRCS= _shared/ToolBarView.cpp core/Main.cpp core/CentralWindow.cpp core/Settings.cpp editors/EditorFactory.cpp \
+SRCS= _shared/ToolBarView.cpp core/Main.cpp core/CentralWindow.cpp _shared/Settings.cpp editors/EditorFactory.cpp \
 	  editors/PlainText/PlainTextEditor.cpp resources/ToolBarIcons.cpp
 
 #	specify the resource definition files to use
