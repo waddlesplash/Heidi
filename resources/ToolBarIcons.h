@@ -12,7 +12,8 @@
 class BBitmap;
 
 enum {
-	kIconRun = 0,
+	kIconBuild = 0,
+	kIconRun,
 	kIconRunDebug,
 };
 

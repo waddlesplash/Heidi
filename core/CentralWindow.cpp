@@ -66,6 +66,7 @@ CentralWindow::CentralWindow(BRect frame)
 	fToolbar = new ToolBarView(BRect(1, 1, 64, 64));
 	fToolbar->AddGlue();
 	fToolbar->AddSeparator();
+	fToolbar->AddAction(CENTRALWINDOW_ABOUT, this, tool_bar_icon(kIconBuild));
 	fToolbar->AddAction(CENTRALWINDOW_ABOUT, this, tool_bar_icon(kIconRun));
 	fToolbar->AddAction(CENTRALWINDOW_ABOUT, this, tool_bar_icon(kIconRunDebug));
 	
