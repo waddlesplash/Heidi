@@ -1,0 +1,5 @@
+Finish the icon (current one by mmu_man, it's OK but kinda hard to see
+	the flower at 16x16. Perhaps we should swap the locations/sizes of the
+	paper and the flower?)
+
+
