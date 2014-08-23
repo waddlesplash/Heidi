@@ -12,17 +12,21 @@
 
 #include "HeidiGlobal.h"
 #include "Editor.h"
-//#include "Project.h"
+#include "Project.h"
 
-// Predefinitions
-// TODO: reorder these alphabetically
-class BOutlineListView;
+// View Predefinitions
 class BTabView;
-class BGroupLayout;
 class BTextView;
+class BOutlineListView;
+class ToolBarView;
+class BGroupLayout;
+
+// Window Predefinitions
 class BFilePanel;
 
-class ToolBarView;
+// Other Predefinitions
+class Project;
+
 
 class CentralWindow : public BWindow
 {
@@ -45,7 +49,7 @@ public:
 	void		MessageReceived(BMessage* msg);
 	bool		QuitRequested();
 
-	// Hooks for the projects to call.
+	// TODO: Hooks for the projects to call in multiproject mode.
 	//status_t	AddProject(Project* project);
 	//status_t	RemoveProject(Project* project);
 
@@ -54,7 +58,7 @@ private:
 	ToolBarView*			fToolbar;
 	
 	BOutlineListView*		fProjectTree;
-	//Project*				fOpenProject;
+	Project*				fOpenProject;
 	
 	BTabView*	  			fEditorsTabView;
 	BObjectList<Editor>		fOpenEditors;

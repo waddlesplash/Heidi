@@ -3,6 +3,8 @@
  * All rights reserved. Distributed under the terms of the MIT license.
  */
 #include "CentralWindow.h"
+
+#include "ProjectFactory.h"
 #include "EditorFactory.h"
 
 #include <Application.h>
@@ -135,11 +137,17 @@ CentralWindow::MessageReceived(BMessage* msg)
 		entry_ref ref;
 		int32 i = 0;
 		if (msg->FindRef("refs", i, &ref) == B_OK) {
-			//if (ProjectFactory::Open... // Try to load it as a project first
-			Editor* newEd = EditorFactory::Create(&ref);
-			if (newEd != NULL) {
-				fEditorsTabView->AddTab(newEd->View());
-				fOpenEditors.AddItem(newEd);
+			// Try to load it as a project first
+			Project* p = ProjectFactory::Load(&ref);
+			if (p != NULL) {
+				delete p; // TODO
+			} else {
+				// Since that failed, try to load it as a file
+				Editor* newEd = EditorFactory::Create(&ref);
+				if (newEd != NULL) {
+					fEditorsTabView->AddTab(newEd->View());
+					fOpenEditors.AddItem(newEd);
+				}
 			}
 		}
 	}

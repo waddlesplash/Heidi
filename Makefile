@@ -35,7 +35,8 @@ APP_MIME_SIG=
 #	are included from different directories.  Also note that spaces
 #	in folder names do not work well with this makefile.
 SRCS= _shared/ToolBarView.cpp core/Main.cpp core/CentralWindow.cpp _shared/Settings.cpp editors/EditorFactory.cpp \
-	  editors/PlainText/PlainTextEditor.cpp resources/ToolBarIcons.cpp
+	  editors/PlainText/PlainTextEditor.cpp resources/ToolBarIcons.cpp projects/ProjectFactory.cpp \
+	  projects/MakefileEngine/MakefileEngineProject.cpp
 
 #	specify the resource definition files to use
 #	full path or a relative path to the resource file can be used.
