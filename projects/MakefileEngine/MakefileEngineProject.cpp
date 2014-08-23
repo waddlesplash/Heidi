@@ -7,23 +7,9 @@
 #include "Makefile.h"
 
 
-MakefileEngineProject::MakefileEngineProject(BString filePath)
-{
-	fFile = BFile(filePath.String(), B_READ_WRITE);
-	Init();
-}
-
-
 MakefileEngineProject::MakefileEngineProject(entry_ref* fileRef)
 {
 	fFile = BFile(fileRef, B_READ_WRITE);
-	Init();
-}
-
-
-void
-MakefileEngineProject::Init()
-{
 	Load();
 }
 

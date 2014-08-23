@@ -38,7 +38,6 @@ public:
 	};
 public:
 	// Required constructors to have in your subclass:
-	// 					Project(BString filePath) = 0;
 	// 					Project(entry_ref* fileRef) = 0;
 
 	virtual	status_t	Load() = 0;

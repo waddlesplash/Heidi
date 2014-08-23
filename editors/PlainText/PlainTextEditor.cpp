@@ -5,30 +5,12 @@
 #include "PlainTextEditor.h"
 
 
-PlainTextEditor::PlainTextEditor(BString filePath)
-	: BTextView("PlainTextEditor", be_fixed_font, NULL, B_WILL_DRAW | B_PULSE_NEEDED)
-{
-	fFile = BFile(filePath.String(), B_READ_WRITE | B_CREATE_FILE);
-	int32 index = filePath.FindLast("/");
-	filePath.CopyInto(fFileName, index, filePath.Length() - index);
-	
-	Init();
-}
-
-
 PlainTextEditor::PlainTextEditor(entry_ref* fileRef)
 	: BTextView("PlainTextEditor", be_fixed_font, NULL, B_WILL_DRAW | B_PULSE_NEEDED)
 {
 	fFile = BFile(fileRef, B_READ_WRITE);
 	fFileName = BString(fileRef->name);
 
-	Init();
-}
-
-
-void
-PlainTextEditor::Init()
-{
 	BTextView::SetWordWrap(false);
 	fScrollView = new BScrollView(fFileName, this, B_NAVIGABLE, true, true);
 	Load();

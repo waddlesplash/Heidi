@@ -13,7 +13,6 @@
 
 class PlainTextEditor : public BTextView, public Editor {
 public:
-	 					PlainTextEditor(BString filePath);
 	 					PlainTextEditor(entry_ref* fileRef);
 
 			BView*		View();
@@ -24,8 +23,6 @@ public:
 			void		GoToLine(int32 line);
 
 private:
-			void		 Init();
-			
 			BScrollView* fScrollView;
 };
 

@@ -16,8 +16,7 @@ class BView;
 
 class Editor {
 public:
-	// Recommended constructors to have in your subclass:
-	// 					Editor(BString filePath) = 0;
+	// Required constructors to have in your subclass:
 	// 					Editor(entry_ref* fileRef) = 0;
 
 	virtual	BView*		View() = 0;

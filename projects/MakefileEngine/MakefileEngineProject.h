@@ -10,7 +10,6 @@
 
 class MakefileEngineProject : public Project {
 public:
-	 					MakefileEngineProject(BString filePath);
 	 					MakefileEngineProject(entry_ref* fileRef);
 
 			static bool	IsSupported(BString filePath);
@@ -24,8 +23,6 @@ public:
 			BString		BuildCommand();
 
 private:
-			void		 Init();
-			
 			// Parser stuff
 			BString		 _ParseString(BString& mkfile, int32& pos);
 			bool		 _ParseConstant(BString& mkfile, int32& pos,
