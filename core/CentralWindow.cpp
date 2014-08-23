@@ -140,6 +140,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 			// Try to load it as a project first
 			Project* p = ProjectFactory::Load(&ref);
 			if (p != NULL) {
+				//p->Save();
 				delete p; // TODO
 			} else {
 				// Since that failed, try to load it as a file

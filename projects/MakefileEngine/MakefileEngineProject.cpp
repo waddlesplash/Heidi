@@ -4,6 +4,8 @@
  */
 #include "MakefileEngineProject.h"
 
+#include "Makefile.h"
+
 
 MakefileEngineProject::MakefileEngineProject(BString filePath)
 {
@@ -56,7 +58,7 @@ bool
 MakefileEngineProject::IsSupported(entry_ref* fileRef)
 {
 	BString name(fileRef->name);
-	return (name.ICompare("Makefile") == 0); 
+	return (name.IFindFirst("Makefile") != B_ERROR); 
 }
 
 
@@ -251,5 +253,13 @@ MakefileEngineProject::_ParseFileList(BString& mkfile, int32& pos)
 status_t
 MakefileEngineProject::Save()
 {
-	// TODO
+	BString mkfile(template_makefile);
+	off_t size = mkfile.Length();
+	fFile.SetSize(size);
+	fFile.Seek(0, SEEK_SET);
+
+	off_t len = fFile.Write(mkfile.String(), size);
+	fFile.Flush();
+	
+	return (len == size) ? B_OK : B_ERROR;
 }
