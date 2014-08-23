@@ -4,6 +4,7 @@
  *
  * Authors:
  *		Artwork: Michele Frau (a.k.a. zuMi)
+ *				 Humdinger
  *		Stephan Aßmus <superstippi@gmx.de>
  */
 
