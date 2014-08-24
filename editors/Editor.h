@@ -28,7 +28,7 @@ public:
 	
 protected:
 			BFile		fFile;
-			BString 	fFileName;
+			BEntry 		fFileEntry;
 };
 
 #endif // EDITORS_EDITOR_H

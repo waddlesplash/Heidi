@@ -49,6 +49,7 @@ public:
 	
 protected:
 			BFile		fFile;
+			BEntry		fFileEntry;
 			
 			// Data storage
 			BString					fName;
