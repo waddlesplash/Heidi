@@ -12,7 +12,6 @@ class MakefileEngineProject : public Project {
 public:
 	 					MakefileEngineProject(entry_ref* fileRef);
 
-			static bool	IsSupported(BString filePath);
 			static bool	IsSupported(entry_ref* fileRef);
 
 			status_t	Load();

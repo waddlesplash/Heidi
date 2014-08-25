@@ -32,17 +32,6 @@ MakefileEngineProject::BuildTree(BOutlineListView* olv)
 
 
 bool
-MakefileEngineProject::IsSupported(BString filePath)
-{
-	BEntry e(filePath.String());
-	char* entryName = new char[B_FILE_NAME_LENGTH];
-	BString name(entryName);
-	delete[] entryName;
-	return (name.ICompare("Makefile") == 0);
-}
-
-
-bool
 MakefileEngineProject::IsSupported(entry_ref* fileRef)
 {
 	BString name(fileRef->name);
