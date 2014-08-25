@@ -166,7 +166,7 @@ BString
 MakefileEngineProject::_ParseString(BString& mkfile, int32& pos)
 {
 	BString str;
-	while (mkfile[pos] != '\n' && mkfile[pos] != '=') {
+	while (mkfile[pos] != '\n' && mkfile[pos] != '=' && mkfile[pos] != ':') {
 		if (mkfile[pos] == '\\')
 			pos++; // Skip next character, probably a newline
 		else
@@ -198,7 +198,7 @@ MakefileEngineProject::_ParseStringList(BString& mkfile, int32& pos)
 {
 	BString str = _ParseString(mkfile, pos);
 	BStringList list;
-	str.Split(" ", true, list);	
+	str.ReplaceAll("\t", " ").Split(" ", true, list);	
 	return list;
 }
 
@@ -227,16 +227,39 @@ MakefileEngineProject::_ParseFileList(BString& mkfile, int32& pos)
 
 // #pragma mark Makefile generator
 
+#define _SerializeBool(val) val ? "TRUE" : "FALSE"
+#define _SerializeStringList(val) val.Join("\\ \n\t")
+
 status_t
 MakefileEngineProject::Save()
 {
 	BString mkfile(template_makefile);
+	
+	mkfile.ReplaceFirst("$@NAME@$", fName);
+	mkfile.ReplaceFirst("$@TYPE@$", "");
+	mkfile.ReplaceFirst("$@APP_MIME_SIG@$", fAppMimeSig);
+	mkfile.ReplaceFirst("$@SRCS@$", "");
+	mkfile.ReplaceFirst("$@RDEFS@$", "");
+	mkfile.ReplaceFirst("$@RSRCS@$", "");
+	mkfile.ReplaceFirst("$@LIBS@$", fLibs.Join(" "));
+	mkfile.ReplaceFirst("$@LIBPATHS@$", _SerializeStringList(fLibpaths));
+	mkfile.ReplaceFirst("$@SYSTEM_INCLUDE_PATHS@$", _SerializeStringList(fSystemIncludePaths));
+	mkfile.ReplaceFirst("$@LOCAL_INCLUDE_PATHS@$", _SerializeStringList(fLocalIncludePaths));
+	mkfile.ReplaceFirst("$@OPTIMIZE@$", "");
+	mkfile.ReplaceFirst("$@LOCALES@$", _SerializeStringList(fLocales));
+	mkfile.ReplaceFirst("$@DEFINES@$", _SerializeStringList(fDefines));
+	mkfile.ReplaceFirst("$@WARNINGS@$", "");
+	mkfile.ReplaceFirst("$@SYMBOLS@$", _SerializeBool(fImageSymbols));
+	mkfile.ReplaceFirst("$@DEBUGGER@$", _SerializeBool(fDebugInfo));
+	mkfile.ReplaceFirst("$@COMPILER_FLAGS@$", _SerializeStringList(fCompilerFlags));
+	mkfile.ReplaceFirst("$@LINKER_FLAGS@$", _SerializeStringList(fLinkerFlags));
+	mkfile.ReplaceFirst("$@DRIVER_PATH@$", fDriverPath);
+	
 	off_t size = mkfile.Length();
 	fFile.SetSize(size);
 	fFile.Seek(0, SEEK_SET);
 
 	off_t len = fFile.Write(mkfile.String(), size);
 	fFile.Flush();
-	
 	return (len == size) ? B_OK : B_ERROR;
 }
