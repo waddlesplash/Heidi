@@ -60,9 +60,11 @@ struct project_data {
 class Project {
 public:
 	struct project_data	data;
+
 public:
-	// Required constructors to have in your subclass:
-	// 					Project(entry_ref* fileRef) = 0;
+						Project();
+	// Required constructors to have in subclasses:
+	// 					Project(entry_ref* fileRef);
 
 	virtual	status_t	Load() = 0;
 	virtual	status_t	Save() = 0;
