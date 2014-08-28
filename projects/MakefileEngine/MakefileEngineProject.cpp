@@ -6,6 +6,8 @@
 
 #include "Makefile.h"
 
+#include <Path.h>
+
 
 MakefileEngineProject::MakefileEngineProject(entry_ref* fileRef)
 {
@@ -218,37 +220,94 @@ MakefileEngineProject::_ParseFileList(BString& mkfile, int32& pos)
 {
 	BStringList list = _ParseStringList(mkfile, pos);
 	BObjectList<BEntry> ret;
+	
+	// Get the Makefile's root path
+	// TODO: deduplify this code!
+	BString mkfilePathStr;
+	BPath mkfilePath;
+	fFileEntry.GetPath(&mkfilePath);
+	mkfilePath.GetParent(&mkfilePath);
+	mkfilePathStr = mkfilePath.Path();
+	mkfilePathStr += "/";
 
-	for (int i = 0; i < list.CountStrings(); i++)
-		ret.AddItem(new BEntry(list.StringAt(i).String()));
+	for (int i = 0; i < list.CountStrings(); i++) {
+		BString fileStr = list.StringAt(i);
+		if (!fileStr.StartsWith("/"))
+			fileStr.Prepend(mkfilePathStr);
+		ret.AddItem(new BEntry(fileStr.String()));
+	}
 
 	return ret;
 }
 
 // #pragma mark Makefile generator
 
-#define _SerializeBool(val) val ? "TRUE" : "FALSE"
-#define _SerializeStringList(val) val.Join("\\ \n\t")
+BString
+MakefileEngineProject::_SerializeFileList(BObjectList<BEntry>& list)
+{
+	BStringList strs;
+	
+	// Get the Makefile's root path
+	BString mkfilePathStr;
+	BPath mkfilePath;
+	fFileEntry.GetPath(&mkfilePath);
+	mkfilePath.GetParent(&mkfilePath);
+	mkfilePathStr = mkfilePath.Path();
+	mkfilePathStr += "/";
+	
+	for (int i = 0; i < list.CountItems(); i++) {
+		BPath path;
+		list.ItemAt(i)->GetPath(&path);
+		strs.Add(BString(path.Path()).ReplaceFirst(mkfilePathStr, ""));
+	}
+	return _SerializeStringList(strs);
+}
 
 status_t
 MakefileEngineProject::Save()
 {
 	BString mkfile(template_makefile);
 	
+	BString optimizeString;
+	if (fOptimizeAmount == OPTIMIZE_SOME)
+		optimizeString = "SOME";
+	else if (fOptimizeAmount == OPTIMIZE_FULL)
+		optimizeString = "FULL";
+	else
+		optimizeString = "NONE";
+
+	BString typeString;
+	if (fType == TYPE_SHARED)
+		typeString = "SHARED";
+	else if (fType == TYPE_STATIC)
+		typeString = "STATIC";
+	else if (fType == TYPE_DRIVER)
+		typeString = "DRIVER";
+	else
+		typeString = "APP";
+
+	BString warningsString;
+	if (fWarnings == WARN_NONE)
+		warningsString = "NONE";
+	else if (fWarnings == WARN_ALL)
+		warningsString = "ALL";
+	else
+		warningsString = "";
+	
 	mkfile.ReplaceFirst("$@NAME@$", fName);
-	mkfile.ReplaceFirst("$@TYPE@$", "");
+	mkfile.ReplaceFirst("$@TYPE@$", typeString);
 	mkfile.ReplaceFirst("$@APP_MIME_SIG@$", fAppMimeSig);
-	mkfile.ReplaceFirst("$@SRCS@$", "");
-	mkfile.ReplaceFirst("$@RDEFS@$", "");
-	mkfile.ReplaceFirst("$@RSRCS@$", "");
+	mkfile.ReplaceFirst("$@SRCS@$", _SerializeFileList(fSrcs));
+	mkfile.ReplaceFirst("$@RDEFS@$", _SerializeFileList(fRdefs));
+	mkfile.ReplaceFirst("$@RSRCS@$", _SerializeFileList(fRsrcs));
 	mkfile.ReplaceFirst("$@LIBS@$", fLibs.Join(" "));
 	mkfile.ReplaceFirst("$@LIBPATHS@$", _SerializeStringList(fLibpaths));
 	mkfile.ReplaceFirst("$@SYSTEM_INCLUDE_PATHS@$", _SerializeStringList(fSystemIncludePaths));
 	mkfile.ReplaceFirst("$@LOCAL_INCLUDE_PATHS@$", _SerializeStringList(fLocalIncludePaths));
-	mkfile.ReplaceFirst("$@OPTIMIZE@$", "");
+	mkfile.ReplaceFirst("$@OPTIMIZE@$", optimizeString);
 	mkfile.ReplaceFirst("$@LOCALES@$", _SerializeStringList(fLocales));
 	mkfile.ReplaceFirst("$@DEFINES@$", _SerializeStringList(fDefines));
-	mkfile.ReplaceFirst("$@WARNINGS@$", "");
+	mkfile.ReplaceFirst("$@WARNINGS@$", warningsString);
 	mkfile.ReplaceFirst("$@SYMBOLS@$", _SerializeBool(fImageSymbols));
 	mkfile.ReplaceFirst("$@DEBUGGER@$", _SerializeBool(fDebugInfo));
 	mkfile.ReplaceFirst("$@COMPILER_FLAGS@$", _SerializeStringList(fCompilerFlags));

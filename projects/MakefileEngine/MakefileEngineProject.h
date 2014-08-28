@@ -30,6 +30,11 @@ private:
 			bool		 _ParseBool(BString& mkfile, int32& pos);
 			BObjectList<BEntry> _ParseFileList(BString& mkfile, int32& pos);
 			
+			inline BString _SerializeBool(bool val) { return val ? "TRUE" : "FALSE"; }
+			inline BString _SerializeStringList(BStringList val)
+					{ return val.Join(" \\\n\t"); }
+			BString		_SerializeFileList(BObjectList<BEntry>& list);
+			
 			// Data storage
 			BString		fAppMimeSig;
 };
