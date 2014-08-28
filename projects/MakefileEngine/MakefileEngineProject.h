@@ -17,8 +17,6 @@ public:
 			status_t	Load();
 			status_t	Save();
 	
-			void		BuildTree(BOutlineListView* olv);
-	
 			BString		BuildCommand();
 
 private:
@@ -34,9 +32,6 @@ private:
 			inline BString _SerializeStringList(BStringList val)
 					{ return val.Join(" \\\n\t"); }
 			BString		_SerializeFileList(BObjectList<BEntry>& list);
-			
-			// Data storage
-			BString		fAppMimeSig;
 };
 
 #endif // PROJECTS_MAKEFILEENGINEPROJECT_H
