@@ -2,8 +2,8 @@
  * Copyright 2014 Augustin Cavalier <waddlesplash>
  * All rights reserved. Distributed under the terms of the MIT license.
  */
-#ifndef EDITORS_CODEEDITOR_H
-#define EDITORS_CODEEDITOR_H
+#ifndef EDITORS_PLAINTEXTEDITOR_H
+#define EDITORS_PLAINTEXTEDITOR_H
 
 #include "HeidiGlobal.h"
 #include "Editor.h"
@@ -26,4 +26,4 @@ private:
 			BScrollView* fScrollView;
 };
 
-#endif // EDITORS_CODEEDITOR_H
+#endif // EDITORS_PLAINTEXTEDITOR_H

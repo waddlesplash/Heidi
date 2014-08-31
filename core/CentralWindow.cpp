@@ -192,7 +192,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 					.Append("/").Append(fOpenProject->data.name);
 		const char* launch = app.String();
 		be_roster->Launch("application/x-vnd.Haiku-Debugger", 1,
-				(char*[]) &launch);
+				(char**) &launch);
 	}break;
 	
 	case CW_ABOUT:

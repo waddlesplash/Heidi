@@ -4,10 +4,10 @@
  */
 #include "EditorFactory.h"
 
-#include "PlainTextEditor.h"
+#include "CodeEditor.h"
 
 Editor*
 EditorFactory::Create(entry_ref* file)
 {
-	return new PlainTextEditor(file);
+	return new CodeEditor(file);
 }
