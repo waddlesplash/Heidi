@@ -14,6 +14,7 @@
 #include <TextView.h>
 #include <LayoutBuilder.h>
 #include <OutlineListView.h>
+#include <Roster.h>
 
 #include "ToolBarView.h"
 #include "ToolBarIcons.h"
@@ -185,9 +186,14 @@ CentralWindow::MessageReceived(BMessage* msg)
 	case CW_RUN_FINISHED:
 		fToolbar->SetActionEnabled(CW_RUN, true);
 	break;
-	case CW_RUN_DEBUG:
-		// TODO
-	break;
+	case CW_RUN_DEBUG:{
+		BString app = fOpenProject->DirectoryPath()
+					.Append(DEFAULT_BUILD_DIR)
+					.Append("/").Append(fOpenProject->data.name);
+		const char* launch = app.String();
+		be_roster->Launch("application/x-vnd.Haiku-Debugger", 1,
+				(char*[]) &launch);
+	}break;
 	
 	case CW_ABOUT:
 		be_app->PostMessage(B_ABOUT_REQUESTED);
