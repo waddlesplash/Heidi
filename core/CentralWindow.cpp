@@ -119,14 +119,16 @@ bool
 CentralWindow::OpenProject(entry_ref* ref)
 {
 	Project* p = ProjectFactory::Load(ref);
-	if (p != NULL)
-		CloseProject();
+	if (p == NULL)
+		return false;
+	CloseProject();
 
 	fToolbar->SetActionEnabled(CW_BUILD, true);
 	if (p->data.type == TYPE_APP)
 		fToolbar->SetActionEnabled(CW_RUN, true);
 	fToolbar->SetActionEnabled(CW_RUN_DEBUG, true);
 	fOpenProject = p;
+	return true;
 }
 
 
