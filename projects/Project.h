@@ -69,7 +69,8 @@ public:
 	virtual	status_t	Load() = 0;
 	virtual	status_t	Save() = 0;
 	
-	virtual BString		BuildCommand() = 0;
+	virtual BString		BuildCommand(BString objDir = DEFAULT_BUILD_DIR,
+								int jobs = 1) = 0;
 			BString		DirectoryPath();
 	
 protected:

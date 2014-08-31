@@ -31,6 +31,7 @@ APP_MIME_SIG =
 SRCS = _shared/ToolBarView.cpp \
 	core/Main.cpp \
 	core/CentralWindow.cpp \
+	core/ShellView.cpp \
 	_shared/Settings.cpp \
 	editors/EditorFactory.cpp \
 	editors/PlainText/PlainTextEditor.cpp \
@@ -113,7 +114,7 @@ SYMBOLS := FALSE
 DEBUGGER := TRUE
 
 #	Specify any additional compiler flags to be used.
-COMPILER_FLAGS = 
+COMPILER_FLAGS =
 
 #	Specify any additional linker flags to be used.
 LINKER_FLAGS = 

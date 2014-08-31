@@ -17,7 +17,7 @@ public:
 			status_t	Load();
 			status_t	Save();
 	
-			BString		BuildCommand();
+			BString		BuildCommand(BString objDir, int jobs);
 
 private:
 			// Parser stuff

@@ -21,9 +21,10 @@ MakefileEngineProject::MakefileEngineProject(entry_ref* fileRef)
 // #pragma mark Project class functions
 
 BString
-MakefileEngineProject::BuildCommand()
+MakefileEngineProject::BuildCommand(BString objDir, int jobs)
 {
-	return BString("make"); // TODO: multijob!
+	return BString()
+		.SetToFormat("make OBJ_DIR=\"%s\" -j%d", objDir.String(), jobs);
 }
 
 

@@ -9,43 +9,45 @@
 
 #include <Application.h>
 #include <MenuBar.h>
+#include <ScrollView.h>
 #include <TabView.h>
 #include <TextView.h>
 #include <LayoutBuilder.h>
-#include <File.h>
-#include <Entry.h>
+#include <OutlineListView.h>
 
 #include "ToolBarView.h"
 #include "ToolBarIcons.h"
+#include "ShellView.h"
 
 #define B_TRANSLATION_CONTEXT "CentralWindow"
 CentralWindow* central_window;
 
 
 CentralWindow::CentralWindow(BRect frame)
-	: BWindow(frame, "Heidi", B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0L)
+	: BWindow(frame, "Heidi", B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL, 0L),
+	  fOpenProject(NULL)
 {
 	central_window = this;
 
 	// Create the user interface
-	BMessenger messenger(this, this);
+	BMessenger thisMsngr(this, this);
 	BMessage message(B_REFS_RECEIVED);
-	fOpenPanel = new BFilePanel(B_OPEN_PANEL, &messenger, NULL, B_FILE_NODE,
+	fOpenPanel = new BFilePanel(B_OPEN_PANEL, &thisMsngr, NULL, B_FILE_NODE,
 			true, &message);
 	
 	BMenuBar* menuBar = new BMenuBar("MenuBar");
 	BLayoutBuilder::Menu<>(menuBar)
 		.AddMenu(TR("File"))
-			.AddItem(TR("New" B_UTF8_ELLIPSIS), CENTRALWINDOW_NEW, 'N')
-			.AddItem(TR("Open" B_UTF8_ELLIPSIS), CENTRALWINDOW_OPEN, 'O')
+			.AddItem(TR("New" B_UTF8_ELLIPSIS), CW_NEW, 'N')
+			.AddItem(TR("Open" B_UTF8_ELLIPSIS), CW_OPEN, 'O')
 			.AddSeparator()
-			.AddItem(TR("Save" B_UTF8_ELLIPSIS), CENTRALWINDOW_SAVE, 'S')
-			.AddItem(TR("Save as" B_UTF8_ELLIPSIS), CENTRALWINDOW_SAVEAS)
+			.AddItem(TR("Save" B_UTF8_ELLIPSIS), CW_SAVE, 'S')
+			.AddItem(TR("Save as" B_UTF8_ELLIPSIS), CW_SAVEAS)
 			.AddSeparator()
 			.AddItem(TR("Quit"), B_QUIT_REQUESTED, 'Q')
 		.End()
 		.AddMenu(TR("Help"))
-			.AddItem(TR("About" B_UTF8_ELLIPSIS), CENTRALWINDOW_ABOUT)
+			.AddItem(TR("About" B_UTF8_ELLIPSIS), CW_ABOUT)
 		.End()
 	.End();
 	
@@ -56,21 +58,22 @@ CentralWindow::CentralWindow(BRect frame)
 	fEditorsTabView->SetTabWidth(B_WIDTH_FROM_WIDEST);
 	fOutputsTabView->SetTabWidth(B_WIDTH_FROM_WIDEST);
 	
+	fCompileOutput = new ShellView(TR("Compile Output"), thisMsngr, CW_BUILD_FINISHED);
 	fBuildIssues = new BTextView(TR("Build Issues"));
-	fCompileOutput = new BTextView(TR("Compile Output"));
-	fAppOutput = new BTextView(TR("App Output"));
+	fAppOutput = new ShellView(TR("App Output"), thisMsngr, CW_RUN_FINISHED);
 	
+	fOutputsTabView->AddTab(fCompileOutput->ScrollView());
 	fOutputsTabView->AddTab(fBuildIssues);
-	fOutputsTabView->AddTab(fCompileOutput);
-	fOutputsTabView->AddTab(fAppOutput);
+	fOutputsTabView->AddTab(fAppOutput->ScrollView());
 	
 	init_tool_bar_icons();
 	fToolbar = new ToolBarView(BRect(1, 1, 64, 64));
 	fToolbar->AddGlue();
 	fToolbar->AddSeparator();
-	fToolbar->AddAction(CENTRALWINDOW_ABOUT, this, tool_bar_icon(kIconBuild));
-	fToolbar->AddAction(CENTRALWINDOW_ABOUT, this, tool_bar_icon(kIconRun));
-	fToolbar->AddAction(CENTRALWINDOW_ABOUT, this, tool_bar_icon(kIconRunDebug));
+	fToolbar->AddAction(CW_BUILD, this, tool_bar_icon(kIconBuild));
+	fToolbar->AddAction(CW_RUN, this, tool_bar_icon(kIconRun));
+	fToolbar->AddAction(CW_RUN_DEBUG, this, tool_bar_icon(kIconRunDebug));
+	CloseProject(); // Resets toolbar state
 	
 	fRootLayout = BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(0, 0, 0, 0)
@@ -112,23 +115,79 @@ CentralWindow::CurrentEditor()
 }
 
 
+bool
+CentralWindow::OpenProject(entry_ref* ref)
+{
+	Project* p = ProjectFactory::Load(ref);
+	if (p != NULL)
+		CloseProject();
+
+	fToolbar->SetActionEnabled(CW_BUILD, true);
+	if (p->data.type == TYPE_APP)
+		fToolbar->SetActionEnabled(CW_RUN, true);
+	fToolbar->SetActionEnabled(CW_RUN_DEBUG, true);
+	fOpenProject = p;
+}
+
+
+void
+CentralWindow::CloseProject()
+{
+	fToolbar->SetActionEnabled(CW_BUILD, false);
+	fToolbar->SetActionEnabled(CW_RUN, false);
+	fToolbar->SetActionEnabled(CW_RUN_DEBUG, false);
+	
+	if (fOpenProject == NULL)
+		return;
+	
+	// TODO: cancel builds
+	fOpenProject->Save();
+	delete fOpenProject;
+}
+
+
 void
 CentralWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
-	case CENTRALWINDOW_NEW:
+	case CW_NEW:
 		// TODO
 	break;
-	
-	case CENTRALWINDOW_OPEN:
+	case CW_OPEN:
 		fOpenPanel->Show();
 	break;
-	
-	case CENTRALWINDOW_SAVE:
+	case CW_SAVE:
 		CurrentEditor()->Save();
 	break;
 	
-	case CENTRALWINDOW_ABOUT:
+	case CW_BUILD:
+		if (fOpenProject == NULL)
+			break;
+		fCompileOutput->Clear();
+		fCompileOutput->Exec(fOpenProject->BuildCommand(),
+					fOpenProject->DirectoryPath());
+		fToolbar->SetActionEnabled(CW_BUILD, false);
+	break;
+	case CW_BUILD_FINISHED:
+		fToolbar->SetActionEnabled(CW_BUILD, true);
+	break;
+	case CW_RUN:
+		// TODO: change it to a stop button after it starts
+		if (fOpenProject == NULL)
+			break;
+		fAppOutput->Clear();
+		fAppOutput->Exec(fOpenProject->data.name,
+					fOpenProject->DirectoryPath().Append(DEFAULT_BUILD_DIR));
+		fToolbar->SetActionEnabled(CW_RUN, false);
+	break;
+	case CW_RUN_FINISHED:
+		fToolbar->SetActionEnabled(CW_RUN, true);
+	break;
+	case CW_RUN_DEBUG:
+		// TODO
+	break;
+	
+	case CW_ABOUT:
 		be_app->PostMessage(B_ABOUT_REQUESTED);
 	break;
 	
@@ -137,12 +196,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 		entry_ref ref;
 		int32 i = 0;
 		if (msg->FindRef("refs", i, &ref) == B_OK) {
-			// Try to load it as a project first
-			Project* p = ProjectFactory::Load(&ref);
-			if (p != NULL) {
-				//p->Save();
-				delete p; // TODO
-			} else {
+			if (!OpenProject(&ref)) {
 				// Since that failed, try to load it as a file
 				Editor* newEd = EditorFactory::Create(&ref);
 				if (newEd != NULL) {

@@ -15,10 +15,12 @@
 #define TR
 #define TRC
 
-#define APP_SIGNATURE "application/x-vnd.ht-Heidi"
+#define APP_SIGNATURE		"application/x-vnd.ht-Heidi"
 
-#define VERSION_STRING	"0.0.1"
-#define HOMEPAGE_URL	"http://waddlesplash.github.io/Heidi/"
-#define SOURCE_URL		"https://github.com/waddlesplash/Heidi"
+#define VERSION_STRING		"0.0.1"
+#define HOMEPAGE_URL		"http://waddlesplash.github.io/Heidi/"
+#define SOURCE_URL			"https://github.com/waddlesplash/Heidi"
+
+#define DEFAULT_BUILD_DIR	"objects.heidi"
 
 #endif // CORE_HEIDIGLOBAL_H
