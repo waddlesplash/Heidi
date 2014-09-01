@@ -37,7 +37,7 @@ SRCS = _shared/ToolBarView.cpp \
 	core/CentralWindow.cpp \
 	core/ShellView.cpp \
 	editors/EditorFactory.cpp \
-	editors/PlainText/PlainTextEditor.cpp \
+	editors/Code/CodeEditor.cpp \
 	resources/ToolBarIcons.cpp \
 	projects/Project.cpp \
 	projects/ProjectFactory.cpp \
@@ -67,7 +67,7 @@ RSRCS =
 #	- 	if your library does not follow the standard library naming scheme,
 #		you need to specify the path to the library and it's name.
 #		(e.g. for mylib.a, specify "mylib.a" or "path/mylib.a")
-LIBS = be tracker $(STDCPPLIBS)
+LIBS = be tracker scintilla $(STDCPPLIBS)
 
 #	Specify additional paths to directories following the standard libXXX.so
 #	or libXXX.a naming scheme. You can specify full paths or paths relative

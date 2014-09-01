@@ -65,7 +65,7 @@ HeidiApp::AboutRequested()
 		case 1: url = SOURCE_URL;   break;
 	}
 	if (url)
-		be_roster->Launch("text/html", 1, (char*[]) &url);
+		be_roster->Launch("text/html", 1, (char**) &url);
 }
 
 
