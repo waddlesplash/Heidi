@@ -18,14 +18,10 @@ public:
 
 			status_t	Load();
 			status_t	Save();
-	
-			void		GoToLine(int32 line);
-			
-			
-			void		NotificationReceived(SCNotification* n);
 
-private:
-			void		Init();
+			void		GoToLine(int32 line);
+
+			void		NotificationReceived(SCNotification* n);
 };
 
 #endif // EDITORS_CODEEDITOR_H

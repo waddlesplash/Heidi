@@ -14,13 +14,7 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	fFileEntry = BEntry(fileRef);
 
 	Load();
-	Init();
-}
-
-
-void
-CodeEditor::Init()
-{
+	
 	SendMessage(SCI_SETLEXER, SCLEX_CPP, 0);
   	// TODO Read color schemes from XML
   	// We need to set font names explicitly, otherwise Scintilla

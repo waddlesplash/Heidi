@@ -34,7 +34,6 @@ SRCS = _shared/ToolBarView.cpp \
 	core/ShellView.cpp \
 	_shared/Settings.cpp \
 	editors/EditorFactory.cpp \
-	editors/PlainText/PlainTextEditor.cpp \
 	editors/Code/CodeEditor.cpp \
 	resources/ToolBarIcons.cpp \
 	projects/Project.cpp \
