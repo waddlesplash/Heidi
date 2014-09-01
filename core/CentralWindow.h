@@ -21,6 +21,7 @@ class BOutlineListView;
 class BGroupLayout;
 class ShellView;
 class ToolBarView;
+class TabManager;
 
 // Window Predefinitions
 class BFilePanel;
@@ -70,7 +71,7 @@ private:
 	BOutlineListView*		fProjectTree;
 	Project*				fOpenProject;
 	
-	BTabView*	  			fEditorsTabView;
+	TabManager*	  			fEditorsTabManager;
 	BObjectList<Editor>		fOpenEditors;
 	
 	BFilePanel*				fOpenPanel;

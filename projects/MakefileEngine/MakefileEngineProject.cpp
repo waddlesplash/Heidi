@@ -13,7 +13,7 @@ MakefileEngineProject::MakefileEngineProject(entry_ref* fileRef)
 	: Project()
 {
 	fFile = BFile(fileRef, B_READ_WRITE);
-	fFileEntry = BEntry(fileRef);
+	fFileEntry = *fileRef;
 
 	Load();
 }

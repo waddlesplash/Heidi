@@ -75,7 +75,7 @@ public:
 	
 protected:
 			BFile		fFile;
-			BEntry		fFileEntry;
+			entry_ref	fFileEntry;
 };
 
 #endif // PROJECTS_PROJECT_H

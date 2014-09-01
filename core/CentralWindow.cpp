@@ -18,6 +18,7 @@
 
 #include "ToolBarView.h"
 #include "ToolBarIcons.h"
+#include "TabManager.h"
 #include "ShellView.h"
 
 #define B_TRANSLATION_CONTEXT "CentralWindow"
@@ -31,7 +32,7 @@ CentralWindow::CentralWindow(BRect frame)
 	central_window = this;
 
 	// Create the user interface
-	BMessenger thisMsngr(this, this);
+	BMessenger thisMsngr(this);
 	BMessage message(B_REFS_RECEIVED);
 	fOpenPanel = new BFilePanel(B_OPEN_PANEL, &thisMsngr, NULL, B_FILE_NODE,
 			true, &message);
@@ -53,11 +54,11 @@ CentralWindow::CentralWindow(BRect frame)
 	.End();
 	
 	fProjectTree = new BOutlineListView("ProjectTree");
-	fEditorsTabView = new BTabView("EditorsTab");
 	fOutputsTabView = new BTabView("OutputTab");
-	
-	fEditorsTabView->SetTabWidth(B_WIDTH_FROM_WIDEST);
 	fOutputsTabView->SetTabWidth(B_WIDTH_FROM_WIDEST);
+	
+	fEditorsTabManager = new TabManager(thisMsngr, new BMessage((uint32)0));
+	fEditorsTabManager->SetCloseButtonsAvailable(true);
 	
 	fCompileOutput = new ShellView(TR("Compile Output"), thisMsngr, CW_BUILD_FINISHED);
 	fBuildIssues = new BTextView(TR("Build Issues"));
@@ -87,12 +88,18 @@ CentralWindow::CentralWindow(BRect frame)
 					//.Add() // Something will go here eventually...
 				.End()
 				.AddSplit(B_VERTICAL, B_USE_HALF_ITEM_SPACING, 3) // Code/output
-					.Add(fEditorsTabView, 3)
+					.AddGroup(B_VERTICAL, 0, 3)
+						.Add(fEditorsTabManager->TabGroup()->GetLayout())
+						.Add(fEditorsTabManager->ContainerView())
+					.End()
 					.Add(fOutputsTabView, 1)
 				.End()
 			.End()
 		.End()
 	.Layout();
+
+	// This fixes a bug that makes the tab header way too big.
+	fEditorsTabManager->TabGroup()->SetExplicitMaxSize(BSize(INT_MAX, 28));
 }
 
 
@@ -104,7 +111,8 @@ CentralWindow::~CentralWindow()
 Editor*
 CentralWindow::CurrentEditor()
 {
-	BView* tab = fEditorsTabView->ViewForTab(fEditorsTabView->Selection());
+	BView* tab = fEditorsTabManager->ViewForTab(
+					fEditorsTabManager->SelectedTabIndex());
 	int32 length = fOpenEditors.CountItems();
 	for (int i = 0; i < length; i++) {
 		Editor* item = fOpenEditors.ItemAt(i);
@@ -208,7 +216,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 				// Since that failed, try to load it as a file
 				Editor* newEd = EditorFactory::Create(&ref);
 				if (newEd != NULL) {
-					fEditorsTabView->AddTab(newEd->View());
+					fEditorsTabManager->AddTab(newEd->View(), newEd->Name());
 					fOpenEditors.AddItem(newEd);
 				}
 			}
