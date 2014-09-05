@@ -16,7 +16,6 @@ public:
 	 					PlainTextEditor(entry_ref* fileRef);
 
 			BView*		View();
-			const char*	Name();
 
 			status_t	Load();
 			status_t	Save();

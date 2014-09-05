@@ -19,10 +19,9 @@ Project::Project()
 BString
 Project::DirectoryPath()
 {
-	BEntry e(&fFileEntry);
 	BString pathStr;
 	BPath path;
-	e.GetPath(&path);
+	fFileEntry.GetPath(&path);
 	path.GetParent(&path);
 	pathStr = path.Path();
 	pathStr += "/";

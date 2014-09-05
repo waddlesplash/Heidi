@@ -20,7 +20,6 @@ public:
 	// 					Editor(entry_ref* fileRef) = 0;
 
 	virtual	BView*		View() = 0;
-	virtual const char*	Name() = 0;
 
 	virtual	status_t	Load() = 0;
 	virtual	status_t	Save() = 0;
@@ -29,7 +28,7 @@ public:
 	
 protected:
 			BFile		fFile;
-			entry_ref	fFileEntry;
+			BEntry 		fFileEntry;
 };
 
 #endif // EDITORS_EDITOR_H

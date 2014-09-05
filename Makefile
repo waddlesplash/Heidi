@@ -29,13 +29,10 @@ APP_MIME_SIG =
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
 SRCS = _shared/ToolBarView.cpp \
-	_shared/tabview/TabView.cpp \
-	_shared/tabview/TabContainerView.cpp \
-	_shared/tabview/TabManager.cpp \
-	_shared/Settings.cpp \
 	core/Main.cpp \
 	core/CentralWindow.cpp \
 	core/ShellView.cpp \
+	_shared/Settings.cpp \
 	editors/EditorFactory.cpp \
 	editors/Code/CodeEditor.cpp \
 	resources/ToolBarIcons.cpp \
