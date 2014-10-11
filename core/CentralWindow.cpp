@@ -144,7 +144,6 @@ CentralWindow::CloseProject()
 		return;
 	
 	// TODO: cancel builds
-	fOpenProject->Save();
 	delete fOpenProject;
 }
 

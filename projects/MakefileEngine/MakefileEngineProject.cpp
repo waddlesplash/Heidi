@@ -4,8 +4,6 @@
  */
 #include "MakefileEngineProject.h"
 
-#include "Makefile.h"
-
 #include <Path.h>
 
 
@@ -225,81 +223,4 @@ MakefileEngineProject::_ParseFileList(BString& mkfile, int32& pos)
 	}
 
 	return ret;
-}
-
-// #pragma mark Makefile generator
-
-status_t
-MakefileEngineProject::Save()
-{
-	BString mkfile(template_makefile);
-	
-	BString optimizeString;
-	if (data.optimize == OPTIMIZE_SOME)
-		optimizeString = "SOME";
-	else if (data.optimize == OPTIMIZE_FULL)
-		optimizeString = "FULL";
-	else
-		optimizeString = "NONE";
-
-	BString typeString;
-	if (data.type == TYPE_SHARED)
-		typeString = "SHARED";
-	else if (data.type == TYPE_STATIC)
-		typeString = "STATIC";
-	else if (data.type == TYPE_DRIVER)
-		typeString = "DRIVER";
-	else
-		typeString = "APP";
-
-	BString warningsString;
-	if (data.warnings == WARN_NONE)
-		warningsString = "NONE";
-	else if (data.warnings == WARN_ALL)
-		warningsString = "ALL";
-	else
-		warningsString = "";
-	
-	mkfile.ReplaceFirst("$@NAME@$", data.name);
-	mkfile.ReplaceFirst("$@TYPE@$", typeString);
-	mkfile.ReplaceFirst("$@APP_MIME_SIG@$", data.app_mime_sig);
-	mkfile.ReplaceFirst("$@SRCS@$", _SerializeFileList(data.srcs));
-	mkfile.ReplaceFirst("$@RDEFS@$", _SerializeFileList(data.rdefs));
-	mkfile.ReplaceFirst("$@RSRCS@$", _SerializeFileList(data.rsrcs));
-	mkfile.ReplaceFirst("$@LIBS@$", data.libs.Join(" "));
-	mkfile.ReplaceFirst("$@LIBPATHS@$", _SerializeStringList(data.lib_paths));
-	mkfile.ReplaceFirst("$@SYSTEM_INCLUDE_PATHS@$", _SerializeStringList(data.system_include_paths));
-	mkfile.ReplaceFirst("$@LOCAL_INCLUDE_PATHS@$", _SerializeStringList(data.local_include_paths));
-	mkfile.ReplaceFirst("$@OPTIMIZE@$", optimizeString);
-	mkfile.ReplaceFirst("$@LOCALES@$", _SerializeStringList(data.locales));
-	mkfile.ReplaceFirst("$@DEFINES@$", _SerializeStringList(data.defines));
-	mkfile.ReplaceFirst("$@WARNINGS@$", warningsString);
-	mkfile.ReplaceFirst("$@SYMBOLS@$", _SerializeBool(data.image_symbols));
-	mkfile.ReplaceFirst("$@DEBUGGER@$", _SerializeBool(data.debug_info));
-	mkfile.ReplaceFirst("$@COMPILER_FLAGS@$", _SerializeStringList(data.compiler_flags));
-	mkfile.ReplaceFirst("$@LINKER_FLAGS@$", _SerializeStringList(data.linker_flags));
-	mkfile.ReplaceFirst("$@DRIVER_PATH@$", data.driver_path);
-	
-	off_t size = mkfile.Length();
-	fFile.SetSize(size);
-	fFile.Seek(0, SEEK_SET);
-
-	off_t len = fFile.Write(mkfile.String(), size);
-	fFile.Flush();
-	return (len == size) ? B_OK : B_ERROR;
-}
-
-
-BString
-MakefileEngineProject::_SerializeFileList(BObjectList<BEntry>& list)
-{
-	BStringList strs;
-	BString mkfilePathStr = DirectoryPath();
-	
-	for (int i = 0; i < list.CountItems(); i++) {
-		BPath path;
-		list.ItemAt(i)->GetPath(&path);
-		strs.Add(BString(path.Path()).ReplaceFirst(mkfilePathStr, ""));
-	}
-	return _SerializeStringList(strs);
 }
