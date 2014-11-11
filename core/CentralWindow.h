@@ -7,6 +7,7 @@
 
 #include <Entry.h>
 #include <FilePanel.h>
+#include <Toolbar.h>
 #include <ObjectList.h>
 #include <Window.h>
 
@@ -20,7 +21,6 @@ class BTextView;
 class BOutlineListView;
 class BGroupLayout;
 class ShellView;
-class ToolBarView;
 
 // Window Predefinitions
 class BFilePanel;
@@ -65,7 +65,7 @@ public:
 
 private:
 	BGroupLayout*			fRootLayout;
-	ToolBarView*			fToolbar;
+	BToolbar*				fToolbar;
 	
 	BOutlineListView*		fProjectTree;
 	Project*				fOpenProject;

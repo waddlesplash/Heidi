@@ -16,7 +16,6 @@
 #include <OutlineListView.h>
 #include <Roster.h>
 
-#include "ToolBarView.h"
 #include "ToolBarIcons.h"
 #include "ShellView.h"
 
@@ -68,7 +67,7 @@ CentralWindow::CentralWindow(BRect frame)
 	fOutputsTabView->AddTab(fAppOutput->ScrollView());
 	
 	init_tool_bar_icons();
-	fToolbar = new ToolBarView(BRect(1, 1, 64, 64));
+	fToolbar = new BToolbar(BRect(1, 1, 64, 64), B_VERTICAL);
 	fToolbar->AddGlue();
 	fToolbar->AddSeparator();
 	fToolbar->AddAction(CW_BUILD, this, tool_bar_icon(kIconBuild));

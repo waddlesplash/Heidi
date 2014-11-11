@@ -17,16 +17,6 @@
 HeidiApp::HeidiApp()
 	: BApplication(APP_SIGNATURE)
 {
-	BPath settingsPath;
-	find_directory(B_USER_SETTINGS_DIRECTORY, &settingsPath);
-	settingsPath.Append("HeidiSettings");
-
-	gSettings.Load(settingsPath.Path());
-}
-
-
-HeidiApp::~HeidiApp()
-{
 }
 
 
@@ -107,7 +97,6 @@ HeidiApp::MessageReceived(BMessage* msg)
 bool
 HeidiApp::QuitRequested()
 {
-	gSettings.Save();
 	return true;
 }
 

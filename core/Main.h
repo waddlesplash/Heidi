@@ -16,7 +16,6 @@ class HeidiApp : public BApplication
 {
 public:
 			HeidiApp();
-			~HeidiApp();
 
 	void	AboutRequested();
 	void	RefsReceived(BMessage* msg);
@@ -24,8 +23,6 @@ public:
 	void	ReadyToRun();
 	void	MessageReceived(BMessage* msg);
 	bool	QuitRequested();
-	
-private:
 };
 
 #endif // CORE_MAIN_H

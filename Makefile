@@ -28,11 +28,9 @@ APP_MIME_SIG =
 #	means this Makefile will not work correctly if two source files with the
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
-SRCS = _shared/ToolBarView.cpp \
-	core/Main.cpp \
+SRCS = core/Main.cpp \
 	core/CentralWindow.cpp \
 	core/ShellView.cpp \
-	_shared/Settings.cpp \
 	editors/EditorFactory.cpp \
 	editors/Code/CodeEditor.cpp \
 	resources/ToolBarIcons.cpp \
@@ -64,7 +62,7 @@ RSRCS =
 #	- 	if your library does not follow the standard library naming scheme,
 #		you need to specify the path to the library and it's name.
 #		(e.g. for mylib.a, specify "mylib.a" or "path/mylib.a")
-LIBS = be tracker scintilla $(STDCPPLIBS)
+LIBS = be tracker scintilla shared $(STDCPPLIBS)
 
 #	Specify additional paths to directories following the standard libXXX.so
 #	or libXXX.a naming scheme. You can specify full paths or paths relative
@@ -76,7 +74,7 @@ LIBPATHS =
 #	Additional paths to look for system headers. These use the form
 #	"#include <header>". Directories that contain the files in SRCS are
 #	NOT auto-included here.
-SYSTEM_INCLUDE_PATHS = 
+SYSTEM_INCLUDE_PATHS = /system/develop/headers/private/shared/
 
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are

@@ -8,8 +8,6 @@
 #include <SupportDefs.h>
 //#include <Catalog.h>
 
-#include "Settings.h"
-
 //#define TR B_TRANSLATE
 //#define TRC B_TRANSLATE_COMMENT
 #define TR
