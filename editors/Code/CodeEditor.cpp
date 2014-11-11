@@ -8,7 +8,7 @@
 
 
 CodeEditor::CodeEditor(entry_ref* fileRef)
-	: BScintillaView("CodeEditor", 0, true, true, B_NO_BORDER)
+	: BScintillaView(fileRef->name, 0, true, true, B_NO_BORDER)
 {
 	fFile = BFile(fileRef, B_READ_WRITE);
 	fFileEntry = BEntry(fileRef);
