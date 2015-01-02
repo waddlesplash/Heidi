@@ -161,7 +161,7 @@ BString
 MakefileEngineProject::_ParseString(BString& mkfile, int32& pos)
 {
 	BString str;
-	while (mkfile[pos] != '\n' && mkfile[pos] != '=' && mkfile[pos] != ':') {
+	while (mkfile[pos] != '\n' && mkfile[pos] != '=' && mkfile[pos] != ':' && mkfile[pos] != '\0') {
 		if (mkfile[pos] == '\\')
 			pos++; // Skip next character, probably a newline
 		else
