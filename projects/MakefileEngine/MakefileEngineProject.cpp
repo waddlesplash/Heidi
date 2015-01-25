@@ -30,7 +30,7 @@ bool
 MakefileEngineProject::IsSupported(entry_ref* fileRef)
 {
 	BString name(fileRef->name);
-	return (name.IFindFirst("Makefile") != B_ERROR); 
+	return (name.IFindFirst("Makefile") != B_ERROR);
 }
 
 
@@ -71,7 +71,7 @@ MakefileEngineProject::Load()
 	mkfile.Trim();
 	mkfile.ReplaceAll("\r\n", "\n");
 	mkfile.ReplaceAll("\r", "\n");
-	
+
 	int32 pos = 0;
 	int32 length = mkfile.Length();
 	while (pos < length) {
@@ -151,7 +151,7 @@ MakefileEngineProject::Load()
 					data.warnings = WARN_DEFAULT;
 			}
 		break;
-		
+
 		default:
 		break;
 		}
@@ -199,7 +199,7 @@ MakefileEngineProject::_ParseStringList(BString& mkfile, int32& pos)
 {
 	BString str = _ParseString(mkfile, pos);
 	BStringList list;
-	str.ReplaceAll("\t", " ").Split(" ", true, list);	
+	str.ReplaceAll("\t", " ").Split(" ", true, list);
 	return list;
 }
 

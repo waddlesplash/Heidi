@@ -23,9 +23,9 @@ public:
 
 	virtual	status_t	Load() = 0;
 	virtual	status_t	Save() = 0;
-	
+
 	virtual	void		GoToLine(int32 line) = 0;
-	
+
 protected:
 			BFile		fFile;
 			BEntry 		fFileEntry;

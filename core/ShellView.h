@@ -24,15 +24,15 @@ public:
 
 					ShellView(const char* name, BMessenger msngr, uint32 what);
 		void		MessageReceived(BMessage* msg);
-		
+
 		BScrollView*	ScrollView() { return fScrollView; }
-					
+
 		status_t	SetCommand(BString command);
 		status_t	SetExecDir(BString execDir);
 		status_t	Exec();
 		status_t	Exec(BString command, BString execDir = ".");
 		void 		Clear();
-		
+
 private:
 		BString			fCommand;
 		BString			fExecDir;

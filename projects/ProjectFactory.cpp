@@ -11,6 +11,6 @@ ProjectFactory::Load(entry_ref* file)
 {
 	if (MakefileEngineProject::IsSupported(file))
 		return new MakefileEngineProject(file);
-	
+
 	return NULL;
 }

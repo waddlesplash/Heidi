@@ -19,7 +19,7 @@ public:
 
 			status_t	Load();
 			status_t	Save();
-	
+
 			void		GoToLine(int32 line);
 
 private:

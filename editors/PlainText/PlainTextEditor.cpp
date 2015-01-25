@@ -49,7 +49,7 @@ PlainTextEditor::Save()
 
 	off_t len = fFile.Write(BTextView::Text(), size);
 	fFile.Flush();
-	
+
 	return (len == size) ? B_OK : B_ERROR;
 }
 

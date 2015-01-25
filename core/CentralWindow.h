@@ -38,21 +38,21 @@ public:
 		CW_OPEN 		= 'cwOP',
 		CW_SAVE 		= 'cwSV',
 		CW_SAVEAS		= 'cwSa',
-		
+
 		CW_BUILD		= 'cwBU',
 		CW_BUILD_FINISHED='cwBF',
 		CW_RUN			= 'cwRU',
 		CW_RUN_FINISHED	= 'cwRF',
 		CW_RUN_DEBUG	= 'cwRD',
-		
+
 		CW_ABOUT		= 'cwAB'
 	};
 
 				CentralWindow(BRect frame);
 				~CentralWindow();
-	
+
 	Editor*		CurrentEditor();
-	
+
 	bool		OpenProject(entry_ref* ref);
 	void		CloseProject();
 
@@ -66,13 +66,13 @@ public:
 private:
 	BGroupLayout*			fRootLayout;
 	BToolbar*				fToolbar;
-	
+
 	BOutlineListView*		fProjectTree;
 	Project*				fOpenProject;
-	
+
 	BTabView*	  			fEditorsTabView;
 	BObjectList<Editor>		fOpenEditors;
-	
+
 	BFilePanel*				fOpenPanel;
 
 	BTabView*	 	 		fOutputsTabView;

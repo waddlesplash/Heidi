@@ -14,7 +14,7 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	fFileEntry = BEntry(fileRef);
 
 	Load();
-	
+
 	SendMessage(SCI_SETLEXER, SCLEX_CPP, 0);
   	// TODO Read color schemes from XML
   	// We need to set font names explicitly, otherwise Scintilla
@@ -45,14 +45,14 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	SendMessage(SCI_STYLESETFORE,10, 0x000000);	// Operators
 	SendMessage(SCI_STYLESETBOLD,10, 1);	// Operators
 	SendMessage(SCI_STYLESETFORE,11, 0x000000);	// Identifiers
-	
+
 	// TODO Read language definitions from file
 	SendMessage(SCI_SETKEYWORDS, 0, (sptr_t) "if else switch case default break goto return for while do continue typedef sizeof NULL new delete throw try catch namespace operator this const_cast static_cast dynamic_cast reinterpret_cast true false using typeid and and_eq bitand bitor compl not not_eq or or_eq xor xor_eq");
 	SendMessage(SCI_SETKEYWORDS, 1, (sptr_t) "void struct union enum char short int long double float signed unsigned const static extern auto register volatile bool class private protected public friend inline template virtual asm explicit typename mutable");
-	
+
 	ToggleLineHighlight();
 	ToggleLineNumbers(40);
-	
+
 	SendMessage(SCI_SETTABWIDTH, 4, 0);
 	//SendMessage(SCI_SETINDENTATIONGUIDES, SC_IV_REAL, 0);
 		// Still ugly, needs fix in Scintilla
@@ -79,7 +79,7 @@ CodeEditor::Load()
 	SetText(buffer);
 	delete[] buffer;
 	SetSavePoint();
-	
+
 	return (len == size) ? B_OK : B_ERROR;
 }
 
@@ -97,7 +97,7 @@ CodeEditor::Save()
 	delete[] buffer;
 	SetSavePoint();
 	fFile.Flush();
-	
+
 	return (len == size) ? B_OK : B_ERROR;
 }
 

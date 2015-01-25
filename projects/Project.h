@@ -64,11 +64,11 @@ public:
 	// 					Project(entry_ref* fileRef);
 
 	virtual	status_t	Load() = 0;
-	
+
 	virtual BString		BuildCommand(BString objDir = DEFAULT_BUILD_DIR,
 								int jobs = 1) = 0;
 			BString		DirectoryPath();
-	
+
 protected:
 			BFile		fFile;
 			BEntry		fFileEntry;

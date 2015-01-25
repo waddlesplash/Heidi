@@ -82,7 +82,7 @@ ShellView::MessageReceived(BMessage* msg)
 		msg->FindString("data", &str);
 		BTextView::Insert(str.String());
 	}break;
-	
+
 	case SV_DONE:
 		if (fExecThread->LockLooper()) {
 			fExecThread->Quit();
@@ -97,13 +97,13 @@ ShellView::MessageReceived(BMessage* msg)
 	}
 }
 
-					
+
 status_t
 ShellView::SetCommand(BString command)
 {
 	if (fExecThread != NULL)
 		return B_ERROR;
-	
+
 	fCommand = command;
 	return B_OK;
 }
@@ -114,7 +114,7 @@ ShellView::SetExecDir(BString execDir)
 {
 	if (fExecThread != NULL)
 		return B_ERROR;
-	
+
 	fExecDir = execDir;
 	return B_OK;
 }

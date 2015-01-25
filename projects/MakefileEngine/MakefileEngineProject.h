@@ -15,7 +15,7 @@ public:
 			static bool	IsSupported(entry_ref* fileRef);
 
 			status_t	Load();
-	
+
 			BString		BuildCommand(BString objDir, int jobs);
 
 private:

@@ -34,7 +34,7 @@ CentralWindow::CentralWindow(BRect frame)
 	BMessage message(B_REFS_RECEIVED);
 	fOpenPanel = new BFilePanel(B_OPEN_PANEL, &thisMsngr, NULL, B_FILE_NODE,
 			true, &message);
-	
+
 	BMenuBar* menuBar = new BMenuBar("MenuBar");
 	BLayoutBuilder::Menu<>(menuBar)
 		.AddMenu(TR("File"))
@@ -50,22 +50,22 @@ CentralWindow::CentralWindow(BRect frame)
 			.AddItem(TR("About" B_UTF8_ELLIPSIS), CW_ABOUT)
 		.End()
 	.End();
-	
+
 	fProjectTree = new BOutlineListView("ProjectTree");
 	fEditorsTabView = new BTabView("EditorsTab");
 	fOutputsTabView = new BTabView("OutputTab");
-	
+
 	fEditorsTabView->SetTabWidth(B_WIDTH_FROM_WIDEST);
 	fOutputsTabView->SetTabWidth(B_WIDTH_FROM_WIDEST);
-	
+
 	fCompileOutput = new ShellView(TR("Compile Output"), thisMsngr, CW_BUILD_FINISHED);
 	fBuildIssues = new BTextView(TR("Build Issues"));
 	fAppOutput = new ShellView(TR("App Output"), thisMsngr, CW_RUN_FINISHED);
-	
+
 	fOutputsTabView->AddTab(fCompileOutput->ScrollView());
 	fOutputsTabView->AddTab(fBuildIssues);
 	fOutputsTabView->AddTab(fAppOutput->ScrollView());
-	
+
 	init_tool_bar_icons();
 	fToolbar = new BToolbar(BRect(1, 1, 64, 64), B_VERTICAL);
 	fToolbar->AddGlue();
@@ -74,7 +74,7 @@ CentralWindow::CentralWindow(BRect frame)
 	fToolbar->AddAction(CW_RUN, this, tool_bar_icon(kIconRun));
 	fToolbar->AddAction(CW_RUN_DEBUG, this, tool_bar_icon(kIconRunDebug));
 	CloseProject(); // Resets toolbar state
-	
+
 	fRootLayout = BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(0, 0, 0, 0)
 		.Add(menuBar)
@@ -138,10 +138,10 @@ CentralWindow::CloseProject()
 	fToolbar->SetActionEnabled(CW_BUILD, false);
 	fToolbar->SetActionEnabled(CW_RUN, false);
 	fToolbar->SetActionEnabled(CW_RUN_DEBUG, false);
-	
+
 	if (fOpenProject == NULL)
 		return;
-	
+
 	// TODO: cancel builds
 	delete fOpenProject;
 }
@@ -160,7 +160,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 	case CW_SAVE:
 		CurrentEditor()->Save();
 	break;
-	
+
 	case CW_BUILD:
 		if (fOpenProject == NULL)
 			break;
@@ -192,11 +192,11 @@ CentralWindow::MessageReceived(BMessage* msg)
 		be_roster->Launch("application/x-vnd.Haiku-Debugger", 1,
 				(char**) &launch);
 	}break;
-	
+
 	case CW_ABOUT:
 		be_app->PostMessage(B_ABOUT_REQUESTED);
 	break;
-	
+
 	case B_REFS_RECEIVED:
 	{
 		entry_ref ref;
@@ -213,7 +213,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 		}
 	}
 	break;
-		
+
 	default:
 		BWindow::MessageReceived(msg);
 	break;

@@ -28,7 +28,7 @@ HeidiApp::AboutRequested()
 	str += TR("Version");
 	str += " " VERSION_STRING;
 	str += "\n\n";
-	
+
 	str += "Augustin Cavalier (waddlesplash)\n";
 	str += "Kacper Kasper (KapiX)\n";
 
@@ -37,7 +37,7 @@ HeidiApp::AboutRequested()
 	BTextView *v = about->TextView();
 	if (v) {
 		v->SetStylable(true);
-		
+
 		char *text = (char*)v->Text();
 		char *s = text;
 		// first text line
@@ -47,7 +47,7 @@ HeidiApp::AboutRequested()
 		font.SetSize(16);
 		v->SetFontAndColor(0, s-text+1, &font, B_FONT_SIZE);
 	}
-	
+
 	const char * url = NULL;
 	switch(about->Go())
 	{
