@@ -47,7 +47,14 @@ MakefileEngineProject::IsSupported(entry_ref* fileRef)
 #define PARSE_STRINGLIST(CONSTANT, VARIABLE) \
 	PARSE_T(CONSTANT, VARIABLE, _ParseStringList)
 #define PARSE_FILELIST(CONSTANT, VARIABLE) \
-	PARSE_T(CONSTANT, VARIABLE, _ParseFileList)
+	if (_ParseConstant(mkfile, pos, CONSTANT)) { \
+		while (mkfile[pos] != '=') \
+			pos++; \
+		pos++; /* Skip to after the '=' */ \
+		BObjectList<BEntry>* l = _ParseFileList(mkfile, pos); \
+		VARIABLE.AddList(l); \
+		delete l; \
+	}
 #define PARSE_BOOL(CONSTANT, VARIABLE) \
 	PARSE_T(CONSTANT, VARIABLE, _ParseBool)
 
@@ -95,13 +102,12 @@ MakefileEngineProject::Load()
 			PARSE_STRING("NAME", data.name)
 		break;
 		case 'R':
-			PARSE_FILELIST("RDEFS", data.rdefs)
-			else PARSE_FILELIST("RSRCS", data.rsrcs)
+			PARSE_FILELIST("RDEFS", data.srcs)
+			else PARSE_FILELIST("RSRCS", data.srcs)
 		break;
 		case 'S':
 			PARSE_FILELIST("SRCS", data.srcs)
 			else PARSE_STRINGLIST("SYSTEM_INCLUDE_PATHS", data.system_include_paths)
-			else PARSE_BOOL("SYMBOLS", data.image_symbols)
 		break;
 
 		case 'O':
@@ -208,18 +214,18 @@ MakefileEngineProject::_ParseBool(BString& mkfile, int32& pos)
 }
 
 
-BObjectList<BEntry>
+BObjectList<BEntry>*
 MakefileEngineProject::_ParseFileList(BString& mkfile, int32& pos)
 {
 	BStringList list = _ParseStringList(mkfile, pos);
-	BObjectList<BEntry> ret;
+	BObjectList<BEntry>* ret = new BObjectList<BEntry>;
 	BString mkfilePathStr = DirectoryPath();
 
 	for (int i = 0; i < list.CountStrings(); i++) {
 		BString fileStr = list.StringAt(i);
 		if (!fileStr.StartsWith("/"))
 			fileStr.Prepend(mkfilePathStr);
-		ret.AddItem(new BEntry(fileStr.String()));
+		ret->AddItem(new BEntry(fileStr.String()));
 	}
 
 	return ret;

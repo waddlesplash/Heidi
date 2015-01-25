@@ -40,8 +40,6 @@ struct project_data {
 	BString					app_mime_sig;
 	project_type			type;
 	BObjectList<BEntry>		srcs;
-	BObjectList<BEntry>		rdefs;
-	BObjectList<BEntry>		rsrcs;
 	BStringList				libs;
 	BStringList				lib_paths;
 	BStringList				system_include_paths;
@@ -50,7 +48,6 @@ struct project_data {
 	BStringList				locales;
 	BStringList				defines;
 	warn_amount				warnings;
-	bool					image_symbols;
 	bool					debug_info;
 	BStringList				compiler_flags;
 	BStringList				linker_flags;

@@ -25,7 +25,7 @@ private:
 										const char* constant);
 			BStringList	 _ParseStringList(BString& mkfile, int32& pos);
 			bool		 _ParseBool(BString& mkfile, int32& pos);
-			BObjectList<BEntry> _ParseFileList(BString& mkfile, int32& pos);
+			BObjectList<BEntry>* _ParseFileList(BString& mkfile, int32& pos);
 };
 
 #endif // PROJECTS_MAKEFILEENGINEPROJECT_H

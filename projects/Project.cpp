@@ -11,7 +11,6 @@ Project::Project()
 	data.type = TYPE_APP;
 	data.optimize = OPTIMIZE_SOME;
 	data.warnings = WARN_DEFAULT;
-	data.image_symbols = false;
 	data.debug_info = false;
 }
 
