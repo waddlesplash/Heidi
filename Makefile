@@ -33,6 +33,7 @@ SRCS = core/Main.cpp \
 	core/ShellView.cpp \
 	editors/EditorFactory.cpp \
 	editors/Code/CodeEditor.cpp \
+	editors/Code/Languages.cpp \
 	resources/ToolBarIcons.cpp \
 	projects/Project.cpp \
 	projects/ProjectFactory.cpp \

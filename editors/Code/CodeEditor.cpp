@@ -3,6 +3,7 @@
  * All rights reserved. Distributed under the terms of the MIT license.
  */
 #include "CodeEditor.h"
+#include "Languages.h"
 
 #include <SciLexer.h>
 
@@ -15,8 +16,7 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 
 	Load();
 
-	SendMessage(SCI_SETLEXER, SCLEX_CPP, 0);
-  	// TODO Read color schemes from XML
+	// TODO Read color schemes from XML
   	// We need to set font names explicitly, otherwise Scintilla
   	// won't allocate styled fonts
   	SendMessage(SCI_STYLESETFONT, STYLE_DEFAULT, (sptr_t) "DejaVu Sans Mono");
@@ -46,9 +46,15 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	SendMessage(SCI_STYLESETBOLD,10, 1);	// Operators
 	SendMessage(SCI_STYLESETFORE,11, 0x000000);	// Identifiers
 
-	// TODO Read language definitions from file
-	SendMessage(SCI_SETKEYWORDS, 0, (sptr_t) "if else switch case default break goto return for while do continue typedef sizeof NULL new delete throw try catch namespace operator this const_cast static_cast dynamic_cast reinterpret_cast true false using typeid and and_eq bitand bitor compl not not_eq or or_eq xor xor_eq");
-	SendMessage(SCI_SETKEYWORDS, 1, (sptr_t) "void struct union enum char short int long double float signed unsigned const static extern auto register volatile bool class private protected public friend inline template virtual asm explicit typename mutable");
+	// Get language definition
+	BString name(fileRef->name), ext;
+	name.CopyInto(ext, name.FindLast('.') + 1, name.Length());
+	language_data* lang = language_for_extension(ext);
+	if (lang != NULL) {
+		SendMessage(SCI_SETLEXER, lang->sclex_id, 0);
+		SendMessage(SCI_SETKEYWORDS, 0, (sptr_t)lang->keywords.String());
+		SendMessage(SCI_SETKEYWORDS, 1, (sptr_t)lang->types.String());
+	}
 
 	ToggleLineHighlight();
 	ToggleLineNumbers(40);
