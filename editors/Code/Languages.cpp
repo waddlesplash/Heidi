@@ -46,4 +46,6 @@ status_t languages_init()
 
 	#include "languages/cpp.h"
 	ADD_LANGUAGE(cpp)
+	#include "languages/shell.h"
+	ADD_LANGUAGE(shell)
 }
