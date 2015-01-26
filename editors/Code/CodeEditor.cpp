@@ -52,8 +52,8 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	language_data* lang = language_for_extension(ext);
 	if (lang != NULL) {
 		SendMessage(SCI_SETLEXER, lang->sclex_id, 0);
-		SendMessage(SCI_SETKEYWORDS, 0, (sptr_t)lang->keywords.String());
-		SendMessage(SCI_SETKEYWORDS, 1, (sptr_t)lang->types.String());
+		SendMessage(SCI_SETKEYWORDS, 0, (sptr_t)lang->keywords);
+		SendMessage(SCI_SETKEYWORDS, 1, (sptr_t)lang->types);
 	}
 
 	ToggleLineHighlight();

@@ -10,10 +10,10 @@
 #include "HeidiGlobal.h"
 
 struct language_data {
-	BString name;
+	const char* name;
 	int sclex_id;
-	BString keywords;
-	BString types;
+	const char* keywords;
+	const char* types;
 };
 
 language_data* language_for_extension(BString ext);
