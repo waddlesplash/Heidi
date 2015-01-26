@@ -78,9 +78,19 @@ ShellView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
 	case SV_DATA:{
+		// Check if the vertical scroll bar is at the end
+		float max;
+		fScrollView->ScrollBar(B_VERTICAL)->GetRange(NULL, &max);
+		bool atEnd = fScrollView->ScrollBar(B_VERTICAL)->Value() == max;
+
 		BString str;
 		msg->FindString("data", &str);
 		BTextView::Insert(str.String());
+
+		if (atEnd) {
+			fScrollView->ScrollBar(B_VERTICAL)->GetRange(NULL, &max);
+			fScrollView->ScrollBar(B_VERTICAL)->SetValue(max);
+		}
 	}break;
 
 	case SV_DONE:
