@@ -56,12 +56,8 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 		SendMessage(SCI_SETKEYWORDS, 1, (sptr_t)lang->types);
 	}
 
-	ToggleLineHighlight();
-	ToggleLineNumbers(40);
-
 	SendMessage(SCI_SETTABWIDTH, 4, 0);
-	//SendMessage(SCI_SETINDENTATIONGUIDES, SC_IV_REAL, 0);
-		// Still ugly, needs fix in Scintilla
+	SendMessage(SCI_SETINDENTATIONGUIDES, SC_IV_REAL, 0);
 }
 
 
@@ -84,7 +80,7 @@ CodeEditor::Load()
 
 	SetText(buffer);
 	delete[] buffer;
-	SetSavePoint();
+	SendMessage(SCI_SETSAVEPOINT, 0, 0);
 
 	return (len == size) ? B_OK : B_ERROR;
 }
@@ -101,7 +97,7 @@ CodeEditor::Save()
 	GetText(0, size + 1, buffer);
 	off_t len = fFile.Write(buffer, size);
 	delete[] buffer;
-	SetSavePoint();
+	SendMessage(SCI_SETSAVEPOINT, 0, 0);
 	fFile.Flush();
 
 	return (len == size) ? B_OK : B_ERROR;

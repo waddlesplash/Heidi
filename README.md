@@ -10,5 +10,5 @@ Compiling: cd haiku; make
 
 Copy:
 
-* bin/scintilla.a -> <non-packaged>/lib/libscintilla.a
-* include/(Scintilla|BScintilla|SciLexer).h -> <non-packaged>/include
+* bin/scintilla.a -> [non-packaged]/develop/lib/libscintilla.a
+* include/(Scintilla|ScintillaView|SciLexer).h -> [non-packaged]/develop/headers
