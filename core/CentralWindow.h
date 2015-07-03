@@ -34,19 +34,19 @@ class CentralWindow : public BWindow
 public:
 	// 'what' codes that are used internally by this class
 	enum WhatCodes {
-		CW_OPEN 		= 'cwOP',
-		CW_SAVE 		= 'cwSV',
-		CW_SAVEAS		= 'cwSa',
+		CW_OPEN = 'cw00',
+		CW_SAVE,
+		CW_SAVEAS,
 
-		CW_BUILD		= 'cwBU',
-		CW_BUILD_FINISHED='cwBF',
-		CW_RUN			= 'cwRU',
-		CW_RUN_FINISHED	= 'cwRF',
-		CW_RUN_DEBUG	= 'cwRD',
+		CW_BUILD,
+		CW_BUILD_FINISHED,
+		CW_RUN,
+		CW_RUN_FINISHED,
+		CW_RUN_DEBUG,
 
-		CW_HOMEPAGE		= 'cwHM',
-		CW_GITHUB		= 'cwGH',
-		CW_ABOUT		= 'cwAB'
+		CW_HOMEPAGE,
+		CW_GITHUB,
+		CW_ABOUT,
 	};
 
 				CentralWindow(BRect frame);
