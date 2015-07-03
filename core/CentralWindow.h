@@ -7,7 +7,7 @@
 
 #include <Entry.h>
 #include <FilePanel.h>
-#include <Toolbar.h>
+#include <ToolBar.h>
 #include <ObjectList.h>
 #include <Window.h>
 
@@ -65,7 +65,7 @@ public:
 
 private:
 	BGroupLayout*			fRootLayout;
-	BToolbar*				fToolbar;
+	BToolBar*				fToolbar;
 
 	BOutlineListView*		fProjectTree;
 	Project*				fOpenProject;
