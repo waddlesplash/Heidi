@@ -35,7 +35,7 @@ void
 ExecThread::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
-	case ShellView::SV_LAUNCH:{
+	case ShellView::SV_LAUNCH: {
 		FILE* fd = popen(fCommand.String(), "r");
 		if (fd != NULL) {
 			char buffer[BUF_SIZE];
@@ -49,7 +49,7 @@ ExecThread::MessageReceived(BMessage* msg)
 		}
 		// TODO: error handling
 		fMessenger.SendMessage(ShellView::SV_DONE);
-	}break;
+	} break;
 
 	default:
 		BLooper::MessageReceived(msg);

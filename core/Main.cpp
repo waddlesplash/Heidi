@@ -5,9 +5,6 @@
 #include "Main.h"
 
 #include <AboutWindow.h>
-#include <Entry.h>
-#include <Path.h>
-#include <TextView.h>
 
 #include "CentralWindow.h"
 

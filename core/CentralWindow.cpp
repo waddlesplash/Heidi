@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Augustin Cavalier <waddlesplash>
+ * Copyright 2014-2015 Augustin Cavalier <waddlesplash>
  * All rights reserved. Distributed under the terms of the MIT license.
  */
 #include "CentralWindow.h"
