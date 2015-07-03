@@ -1,9 +1,13 @@
-#define cpp_NAME 		"C++"
+#define cpp_NAME 		"C/C++"
 
 #define cpp_EXTENSIONS 	E("cpp") \
 						E("cxx") \
+						E("cx") \
 						E("c++") \
-						E("cc")
+						E("cc") \
+						E("hpp") \
+						E("h") \
+						E("c")
 
 #define cpp_SCLEX_ID	SCLEX_CPP
 
@@ -17,3 +21,5 @@
 	"short int long double float signed unsigned const static extern auto " \
 	"register volatile bool class private protected public friend inline " \
 	"template virtual asm explicit typename mutable"
+
+ADD_LANGUAGE(cpp)

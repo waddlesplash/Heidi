@@ -9,3 +9,5 @@
 	"if in select then until while"
 
 #define shell_TYPES ""
+
+ADD_LANGUAGE(shell)

@@ -45,7 +45,6 @@ status_t languages_init()
 	language_data* temp = NULL;
 
 	#include "languages/cpp.h"
-	ADD_LANGUAGE(cpp)
 	#include "languages/shell.h"
-	ADD_LANGUAGE(shell)
+	#include "languages/recipe.h"
 }
