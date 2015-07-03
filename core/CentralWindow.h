@@ -34,7 +34,6 @@ class CentralWindow : public BWindow
 public:
 	// 'what' codes that are used internally by this class
 	enum WhatCodes {
-		CW_NEW 			= 'cwNW',
 		CW_OPEN 		= 'cwOP',
 		CW_SAVE 		= 'cwSV',
 		CW_SAVEAS		= 'cwSa',

@@ -37,7 +37,6 @@ CentralWindow::CentralWindow(BRect frame)
 	BMenuBar* menuBar = new BMenuBar("MenuBar");
 	BLayoutBuilder::Menu<>(menuBar)
 		.AddMenu(TR("File"))
-			.AddItem(TR("New" B_UTF8_ELLIPSIS), CW_NEW, 'N')
 			.AddItem(TR("Open" B_UTF8_ELLIPSIS), CW_OPEN, 'O')
 			.AddSeparator()
 			.AddItem(TR("Save" B_UTF8_ELLIPSIS), CW_SAVE, 'S')
@@ -153,9 +152,6 @@ void
 CentralWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
-	case CW_NEW:
-		// TODO
-	break;
 	case CW_OPEN:
 		fOpenPanel->Show();
 	break;
