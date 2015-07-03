@@ -11,7 +11,6 @@
 #include <MenuBar.h>
 #include <ScrollView.h>
 #include <TabView.h>
-#include <TextView.h>
 #include <LayoutBuilder.h>
 #include <OutlineListView.h>
 #include <Roster.h>
@@ -47,6 +46,9 @@ CentralWindow::CentralWindow(BRect frame)
 			.AddItem(TR("Quit"), B_QUIT_REQUESTED, 'Q')
 		.End()
 		.AddMenu(TR("Help"))
+			.AddItem(TR("Website" B_UTF8_ELLIPSIS), CW_HOMEPAGE)
+			.AddItem(TR("GitHub project" B_UTF8_ELLIPSIS), CW_GITHUB)
+			.AddSeparator()
 			.AddItem(TR("About" B_UTF8_ELLIPSIS), CW_ABOUT)
 		.End()
 	.End();
@@ -184,15 +186,23 @@ CentralWindow::MessageReceived(BMessage* msg)
 	case CW_RUN_FINISHED:
 		fToolbar->SetActionEnabled(CW_RUN, true);
 	break;
-	case CW_RUN_DEBUG:{
+	case CW_RUN_DEBUG: {
 		BString app = fOpenProject->DirectoryPath()
 					.Append(DEFAULT_BUILD_DIR)
 					.Append("/").Append(fOpenProject->data.name);
 		const char* launch = app.String();
 		be_roster->Launch("application/x-vnd.Haiku-Debugger", 1,
 				(char**) &launch);
-	}break;
+	} break;
 
+	case CW_HOMEPAGE: {
+		const char* url = HOMEPAGE_URL;
+		be_roster->Launch("text/html", 1, (char**) &url);
+	} break;
+	case CW_GITHUB: {
+		const char* url = SOURCE_URL;
+		be_roster->Launch("text/html", 1, (char**) &url);
+	} break;
 	case CW_ABOUT:
 		be_app->PostMessage(B_ABOUT_REQUESTED);
 	break;

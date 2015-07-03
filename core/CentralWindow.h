@@ -45,6 +45,8 @@ public:
 		CW_RUN_FINISHED	= 'cwRF',
 		CW_RUN_DEBUG	= 'cwRD',
 
+		CW_HOMEPAGE		= 'cwHM',
+		CW_GITHUB		= 'cwGH',
 		CW_ABOUT		= 'cwAB'
 	};
 
