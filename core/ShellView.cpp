@@ -77,7 +77,7 @@ void
 ShellView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
-	case SV_DATA:{
+	case SV_DATA: {
 		// Check if the vertical scroll bar is at the end
 		float max;
 		fScrollView->ScrollBar(B_VERTICAL)->GetRange(NULL, &max);
@@ -91,7 +91,7 @@ ShellView::MessageReceived(BMessage* msg)
 			fScrollView->ScrollBar(B_VERTICAL)->GetRange(NULL, &max);
 			fScrollView->ScrollBar(B_VERTICAL)->SetValue(max);
 		}
-	}break;
+	} break;
 
 	case SV_DONE:
 		if (fExecThread->LockLooper()) {
