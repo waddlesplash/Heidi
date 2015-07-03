@@ -69,7 +69,7 @@ CentralWindow::CentralWindow(BRect frame)
 	fOutputsTabView->AddTab(fAppOutput->ScrollView());
 
 	init_tool_bar_icons();
-	fToolbar = new BToolBar(BRect(1, 1, 64, 64), B_VERTICAL);
+	fToolbar = new BToolBar(B_VERTICAL);
 	fToolbar->AddGlue();
 	fToolbar->AddSeparator();
 	fToolbar->AddAction(CW_BUILD, this, tool_bar_icon(kIconBuild));
