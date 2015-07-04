@@ -67,7 +67,6 @@ CodeEditor::View()
 	return this;
 }
 
-
 status_t
 CodeEditor::Load()
 {
@@ -75,9 +74,10 @@ CodeEditor::Load()
 	fFile.GetSize(&size);
 	fFile.Seek(0, SEEK_SET);
 
-	char* buffer = new char[size];
+	char* buffer = new char[size + 1];
 	off_t len = fFile.Read(buffer, size);
 
+	buffer[size] = '\0';
 	SetText(buffer);
 	delete[] buffer;
 	SendMessage(SCI_SETSAVEPOINT, 0, 0);

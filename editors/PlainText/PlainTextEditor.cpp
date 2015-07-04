@@ -31,9 +31,10 @@ PlainTextEditor::Load()
 	fFile.GetSize(&size);
 	fFile.Seek(0, SEEK_SET);
 
-	char* buffer = new char[size];
+	char* buffer = new char[size + 1];
 	off_t len = fFile.Read(buffer, size);
 
+	buffer[size] = '\0';
 	BTextView::SetText(buffer);
 	delete[] buffer;
 	return (len == size) ? B_OK : B_ERROR;
