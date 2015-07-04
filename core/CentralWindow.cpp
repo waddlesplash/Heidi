@@ -213,6 +213,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 				Editor* newEd = EditorFactory::Create(&ref);
 				if (newEd != NULL) {
 					fEditorsTabView->AddTab(newEd->View());
+					fEditorsTabView->Select(fEditorsTabView->CountTabs() - 1);
 					fOpenEditors.AddItem(newEd);
 				}
 			}
