@@ -77,7 +77,7 @@ CentralWindow::CentralWindow(BRect frame)
 	CloseProject(); // Resets toolbar state
 
 	fRootLayout = BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
-		.SetInsets(0, 0, 0, 0)
+		.SetInsets(0)
 		.Add(menuBar)
 		.AddGroup(B_HORIZONTAL, 0)
 			.Add(fToolbar)
