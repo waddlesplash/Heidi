@@ -1,4 +1,4 @@
-## BeOS Generic Makefile v2.5+Heidi-1 ##
+## Haiku Generic Makefile v2.6 ##
 
 ## Fill in this file to specify the project being created, and the referenced
 ## Makefile-Engine will do all of the hard work for you. This handles any
@@ -32,6 +32,7 @@ APP_MIME_SIG =
 SRCS = core/Main.cpp \
 	core/CentralWindow.cpp \
 	core/ShellView.cpp \
+	editors/Editor.cpp \
 	editors/EditorFactory.cpp \
 	editors/Code/CodeEditor.cpp \
 	editors/Code/Languages.cpp \
@@ -76,8 +77,7 @@ LIBPATHS =
 #	Additional paths to look for system headers. These use the form
 #	"#include <header>". Directories that contain the files in SRCS are
 #	NOT auto-included here.
-SYSTEM_INCLUDE_PATHS = /system/develop/headers/private/shared/ \
-	/system/develop/headers/private/interface/
+SYSTEM_INCLUDE_PATHS = /system/develop/headers/private/interface/
 
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
@@ -86,7 +86,7 @@ LOCAL_INCLUDE_PATHS =
 
 #	Specify the level of optimization that you want. Specify either NONE (O0),
 #	SOME (O1), FULL (O2), or leave blank (for the default optimization level).
-OPTIMIZE := NONE
+OPTIMIZE :=
 
 # 	Specify the codes for languages you are going to support in this
 # 	application. The default "en" one must be provided too. "make catkeys"
@@ -108,17 +108,22 @@ WARNINGS =
 
 #	With image symbols, stack crawls in the debugger are meaningful.
 #	If set to "TRUE", symbols will be created.
-SYMBOLS := FALSE
+SYMBOLS :=
 
 #	Includes debug information, which allows the binary to be debugged easily.
 #	If set to "TRUE", debug info will be created.
-DEBUGGER := TRUE
+DEBUGGER :=
 
 #	Specify any additional compiler flags to be used.
-COMPILER_FLAGS =
+COMPILER_FLAGS = -std=c++11
 
 #	Specify any additional linker flags to be used.
 LINKER_FLAGS =
+
+#	Specify the version of this binary. Example:
+#		-app 3 4 0 d 0 -short 340 -long "340 "`echo -n -e '\302\251'`"1999 GNU GPL"
+#	This may also be specified in a resource.
+APP_VERSION :=
 
 #	(Only used when "TYPE" is "DRIVER"). Specify the desired driver install
 #	location in the /dev hierarchy. Example:

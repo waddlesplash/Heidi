@@ -7,9 +7,10 @@
 
 #include <Entry.h>
 #include <FilePanel.h>
-#include <ToolBar.h>
 #include <ObjectList.h>
 #include <Window.h>
+
+#include <private/shared/ToolBar.h>
 
 #include "HeidiGlobal.h"
 #include "Editor.h"
@@ -32,7 +33,6 @@ class Project;
 class CentralWindow : public BWindow
 {
 public:
-	// 'what' codes that are used internally by this class
 	enum WhatCodes {
 		CW_OPEN = 'cw00',
 		CW_SAVE,
