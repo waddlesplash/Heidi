@@ -4,7 +4,7 @@
  */
 
 #include <Message.h>
-#include <SciLexer.h>
+#include <scintilla/SciLexer.h>
 
 #include "Languages.h"
 

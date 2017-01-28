@@ -212,8 +212,10 @@ CentralWindow::MessageReceived(BMessage* msg)
 				// Since that failed, try to load it as a file
 				Editor* newEd = EditorFactory::Create(&ref);
 				if (newEd != NULL) {
+					int32 index = fEditorsTabView->CountTabs();
 					fEditorsTabView->AddTab(newEd->View());
-					fEditorsTabView->Select(fEditorsTabView->CountTabs() - 1);
+					fEditorsTabView->Select(index);
+					newEd->SetTab(fEditorsTabView->TabAt(index));
 					fOpenEditors.AddItem(newEd);
 				}
 			}

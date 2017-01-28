@@ -8,7 +8,7 @@
 #include "HeidiGlobal.h"
 #include "Editor.h"
 
-#include <ScintillaView.h>
+#include <scintilla/ScintillaView.h>
 
 class CodeEditor : public BScintillaView, public Editor {
 public:

@@ -1,11 +1,12 @@
 /*
  * Copyright 2014 Kacper Kasper <kacperkasper@gmail.com>
+ * Copyright 2016 Augustin Cavalier <waddlesplash>
  * All rights reserved. Distributed under the terms of the MIT license.
  */
 #include "CodeEditor.h"
 #include "Languages.h"
 
-#include <SciLexer.h>
+#include <scintilla/SciLexer.h>
 
 
 CodeEditor::CodeEditor(entry_ref* fileRef)
@@ -42,9 +43,11 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	SendMessage(SCI_STYLESETFORE, 8, 0x804080);	// UUID
 	SendMessage(SCI_STYLESETFORE, 9, 0x007F7F);	// Preprocessor
 	SendMessage(SCI_STYLESETFONT, 10, (sptr_t) "DejaVu Sans Mono");
-	SendMessage(SCI_STYLESETFORE,10, 0x000000);	// Operators
-	SendMessage(SCI_STYLESETBOLD,10, 1);	// Operators
-	SendMessage(SCI_STYLESETFORE,11, 0x000000);	// Identifiers
+	SendMessage(SCI_STYLESETFORE, 10, 0x000000);	// Operators
+	SendMessage(SCI_STYLESETBOLD, 10, 1);	// Operators
+
+	SendMessage(SCI_SETMARGINTYPEN, 0, (long int)SC_MARGIN_NUMBER);
+	SendMessage(SCI_SETMARGINWIDTHN, 0, 80);
 
 	// Get language definition
 	BString name(fileRef->name), ext;
@@ -82,6 +85,7 @@ CodeEditor::Load()
 	delete[] buffer;
 	SendMessage(SCI_SETSAVEPOINT, 0, 0);
 
+	ContentsSaved(); // Clear "modified" state
 	return (len == size) ? B_OK : B_ERROR;
 }
 
@@ -100,6 +104,7 @@ CodeEditor::Save()
 	SendMessage(SCI_SETSAVEPOINT, 0, 0);
 	fFile.Flush();
 
+	ContentsSaved();
 	return (len == size) ? B_OK : B_ERROR;
 }
 
@@ -114,5 +119,6 @@ CodeEditor::GoToLine(int32 line)
 void
 CodeEditor::NotificationReceived(SCNotification* n)
 {
+	if (n->nmhdr.code == SCN_MODIFIED && n->modificationType & SC_PERFORMED_USER)
+		ContentsModified();
 }
-
