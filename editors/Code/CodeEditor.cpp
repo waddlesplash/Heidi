@@ -35,7 +35,7 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	SendMessage(SCI_STYLESETFONT, 5, (sptr_t) "DejaVu Sans Mono");	// Keyword
 	SendMessage(SCI_STYLESETFORE, 5, 0x7F0000);	// Keyword
 	SendMessage(SCI_STYLESETBOLD, 5, 1);	// Keyword
-	SendMessage(SCI_STYLESETFONT, SCE_C_WORD2, (sptr_t) "DejaVu Sans Mono");	// Keyword
+	SendMessage(SCI_STYLESETFONT, SCE_C_WORD2, (sptr_t) "DejaVu Sans Mono"); // Keyword
 	SendMessage(SCI_STYLESETFORE, SCE_C_WORD2, 0x7F0000);	// Keyword
 	SendMessage(SCI_STYLESETBOLD, SCE_C_WORD2, 1);	// Keyword
 	SendMessage(SCI_STYLESETFORE, 6, 0x7F007F);	// String
@@ -47,7 +47,7 @@ CodeEditor::CodeEditor(entry_ref* fileRef)
 	SendMessage(SCI_STYLESETBOLD, 10, 1);	// Operators
 
 	SendMessage(SCI_SETMARGINTYPEN, 0, (long int)SC_MARGIN_NUMBER);
-	SendMessage(SCI_SETMARGINWIDTHN, 0, 80);
+	SendMessage(SCI_SETMARGINWIDTHN, 0, 30);
 
 	// Get language definition
 	BString name(fileRef->name), ext;
