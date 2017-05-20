@@ -12,8 +12,11 @@
 #include <ScrollView.h>
 #include <TabView.h>
 #include <LayoutBuilder.h>
-#include <OutlineListView.h>
 #include <Roster.h>
+#include <Path.h>
+
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 
 #include "ToolBarIcons.h"
 #include "ShellView.h"
@@ -52,7 +55,9 @@ CentralWindow::CentralWindow(BRect frame)
 		.End()
 	.End();
 
-	fProjectTree = new BOutlineListView("ProjectTree");
+	fProjectTree = new BColumnListView("ProjectTree", 0);
+	fProjectTree->AddColumn(new BStringColumn(TR("File"),
+		175, 10, 10000, 0), 0);
 	fEditorsTabView = new BTabView("EditorsTab");
 	fOutputsTabView = new BTabView("OutputTab");
 
@@ -130,6 +135,18 @@ CentralWindow::OpenProject(entry_ref* ref)
 		fToolbar->SetActionEnabled(CW_RUN_DEBUG, true);
 	}
 	fOpenProject = p;
+
+	BString rootPath(p->DirectoryPath());
+	for (int32 i = 0; i < p->Files.CountItems(); i++) {
+		BRow* row = new BRow;
+		BPath path;
+		p->Files.ItemAt(i)->GetPath(&path);
+		BString pth(path.Path());
+		pth.ReplaceFirst(rootPath, "");
+		row->SetField(new BStringField(pth.String()), 0);
+		fProjectTree->AddRow(row);
+	}
+
 	return true;
 }
 
@@ -140,6 +157,8 @@ CentralWindow::CloseProject()
 	fToolbar->SetActionEnabled(CW_BUILD, false);
 	fToolbar->SetActionEnabled(CW_RUN, false);
 	fToolbar->SetActionEnabled(CW_RUN_DEBUG, false);
+
+	fProjectTree->Clear();
 
 	if (fOpenProject == NULL)
 		return;
