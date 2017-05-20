@@ -80,75 +80,29 @@ MakefileEngineProject::Load()
 			// We're at a comment. Ignore until the next newline.
 			pos = mkfile.FindFirst('\n', pos);
 		break;
-		case 'A':
-			PARSE_STRING("APP_MIME_SIG", data.app_mime_sig)
-		break;
-		case 'C':
-			PARSE_STRINGLIST("COMPILER_FLAGS", data.compiler_flags)
-		break;
 		case 'D':
-			PARSE_STRINGLIST("DEFINES", data.defines)
-			else PARSE_BOOL("DEBUGGER", data.debug_info)
-			else PARSE_STRING("DRIVER_PATH", data.driver_path)
+			PARSE_STRINGLIST("DEFINES", Defines)
 		break;
 		case 'L':
-			PARSE_STRINGLIST("LIBS", data.libs)
-			else PARSE_STRINGLIST("LIBPATHS", data.lib_paths)
-			else PARSE_STRINGLIST("LOCAL_INCLUDE_PATHS", data.local_include_paths)
-			else PARSE_STRINGLIST("LOCALES", data.locales)
-			else PARSE_STRINGLIST("LINKER_FLAGS", data.linker_flags)
+			PARSE_STRINGLIST("LOCAL_INCLUDE_PATHS", LocalIncludePaths)
 		break;
 		case 'N':
-			PARSE_STRING("NAME", data.name)
-		break;
-		case 'R':
-			PARSE_FILELIST("RDEFS", data.srcs)
-			else PARSE_FILELIST("RSRCS", data.srcs)
+			PARSE_STRING("NAME", Name)
 		break;
 		case 'S':
-			PARSE_FILELIST("SRCS", data.srcs)
-			else PARSE_STRINGLIST("SYSTEM_INCLUDE_PATHS", data.system_include_paths)
+			PARSE_FILELIST("SRCS", Files)
+			else PARSE_STRINGLIST("SYSTEM_INCLUDE_PATHS", SystemIncludePaths)
 		break;
 
-		case 'O':
-			if (_ParseConstant(mkfile, pos, "OPTIMIZE")) {
-				while (mkfile[pos] != '=')
-					pos++;
-				pos++; /* Skip to after the '=' */
-				if (_ParseConstant(mkfile, pos, "SOME"))
-					data.optimize = OPTIMIZE_SOME;
-				else if (_ParseConstant(mkfile, pos, "FULL"))
-					data.optimize = OPTIMIZE_FULL;
-				else
-					data.optimize = OPTIMIZE_NONE;
-			}
-		break;
 		case 'T':
 			if (_ParseConstant(mkfile, pos, "TYPE")) {
 				while (mkfile[pos] != '=')
 					pos++;
 				pos++; /* Skip to after the '=' */
-				if (_ParseConstant(mkfile, pos, "SHARED"))
-					data.type = TYPE_SHARED;
-				else if (_ParseConstant(mkfile, pos, "STATIC"))
-					data.type = TYPE_STATIC;
-				else if (_ParseConstant(mkfile, pos, "DRIVER"))
-					data.type = TYPE_DRIVER;
+				if (_ParseConstant(mkfile, pos, "APP"))
+					IsApp = true;
 				else
-					data.type = TYPE_APP;
-			}
-		break;
-		case 'W':
-			if (_ParseConstant(mkfile, pos, "WARNINGS")) {
-				while (mkfile[pos] != '=')
-					pos++;
-				pos++; /* Skip to after the '=' */
-				if (_ParseConstant(mkfile, pos, "NONE"))
-					data.warnings = WARN_NONE;
-				else if (_ParseConstant(mkfile, pos, "ALL"))
-					data.warnings = WARN_ALL;
-				else
-					data.warnings = WARN_DEFAULT;
+					IsApp = false;
 			}
 		break;
 

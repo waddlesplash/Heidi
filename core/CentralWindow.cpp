@@ -125,9 +125,10 @@ CentralWindow::OpenProject(entry_ref* ref)
 	CloseProject();
 
 	fToolbar->SetActionEnabled(CW_BUILD, true);
-	if (p->data.type == TYPE_APP)
+	if (p->IsApp) {
 		fToolbar->SetActionEnabled(CW_RUN, true);
-	fToolbar->SetActionEnabled(CW_RUN_DEBUG, true);
+		fToolbar->SetActionEnabled(CW_RUN_DEBUG, true);
+	}
 	fOpenProject = p;
 	return true;
 }
@@ -175,8 +176,8 @@ CentralWindow::MessageReceived(BMessage* msg)
 		if (fOpenProject == NULL)
 			break;
 		fAppOutput->Clear();
-		fAppOutput->Exec(fOpenProject->data.name,
-					fOpenProject->DirectoryPath().Append(DEFAULT_BUILD_DIR));
+		fAppOutput->Exec(fOpenProject->Name,
+			fOpenProject->DirectoryPath().Append(DEFAULT_BUILD_DIR));
 		fToolbar->SetActionEnabled(CW_RUN, false);
 	break;
 	case CW_RUN_FINISHED:
@@ -185,7 +186,7 @@ CentralWindow::MessageReceived(BMessage* msg)
 	case CW_RUN_DEBUG: {
 		BString app = fOpenProject->DirectoryPath()
 					.Append(DEFAULT_BUILD_DIR)
-					.Append("/").Append(fOpenProject->data.name);
+					.Append("/").Append(fOpenProject->Name);
 		const char* launch = app.String();
 		be_roster->Launch("application/x-vnd.Haiku-Debugger", 1,
 				(char**) &launch);

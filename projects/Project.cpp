@@ -8,10 +8,7 @@
 
 Project::Project()
 {
-	data.type = TYPE_APP;
-	data.optimize = OPTIMIZE_SOME;
-	data.warnings = WARN_DEFAULT;
-	data.debug_info = false;
+	IsApp = false;
 }
 
 

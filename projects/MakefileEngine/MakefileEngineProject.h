@@ -20,6 +20,8 @@ public:
 
 private:
 			// Parser stuff
+			BFile fFile;
+
 			BString		 _ParseString(BString& mkfile, int32& pos);
 			bool		 _ParseConstant(BString& mkfile, int32& pos,
 										const char* constant);
